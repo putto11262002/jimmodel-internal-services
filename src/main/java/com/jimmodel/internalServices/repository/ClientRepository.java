@@ -13,6 +13,6 @@ import java.util.UUID;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, UUID> {
 
-    @Query(value = "select c from Client c join c.address a where c.name like :searchTerm%")
+    @Query(value = "select c from Client c join c.address a where lower(c.name) like concat('%', lower(:searchTerm), '%')")
     public Page<Client> search(@Param("searchTerm") String searchTerm, Pageable pageable);
 }
