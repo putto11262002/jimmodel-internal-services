@@ -67,6 +67,19 @@ public class ModelController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @GetMapping(value = "/search/{searchTerm}")
+    public ResponseEntity<ModelsResponse> searchModel(
+            @PathVariable(name = "searchTerm") String searchTerm,
+            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_NUMBER, name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_SIZE, name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_SORT_BY, name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_SORT_DIR, name = "sortDir") String sortDir
+    ){
+        Page<Model> modelPage =  modelService.search(searchTerm, pageNumber, pageSize, sortBy, sortDir);
+        ModelsResponse responseBody = new ModelsResponse(modelPage);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
     @PostMapping("/image/profile/{id}")
     public ResponseEntity<ImageResponse> saveModelProfileImageByModelId(@PathVariable(name = "id") UUID id, @RequestParam(name = "image") MultipartFile file){
         Image image = modelService.saveProfileImageById(id, file);

@@ -177,6 +177,9 @@ public class ModelServiceImpl implements ModelService{
 
     @Override
     public Page<Model> search(String searchTerm, Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
-        return null;
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+        return modelRepository.search(searchTerm, pageable);
     }
 }
