@@ -1,19 +1,22 @@
 package com.jimmodel.internalServices.controller;
 
+import com.jimmodel.internalServices.config.ModelConfig;
 import com.jimmodel.internalServices.dto.Request.SignInRequest;
 import com.jimmodel.internalServices.dto.Request.UserRequest;
 import com.jimmodel.internalServices.dto.Response.JwtTokenResponse;
 import com.jimmodel.internalServices.dto.Response.UserResponse;
+import com.jimmodel.internalServices.dto.Response.UsersResponse;
 import com.jimmodel.internalServices.model.JwtToken;
 import com.jimmodel.internalServices.model.User;
 import com.jimmodel.internalServices.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/v1/user")
@@ -23,17 +26,62 @@ public class UserController {
     UserService userService;
 
 
-    @PostMapping("/sign-up")
+    @PostMapping(value = "/sign-up")
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest){
-        User createdUser = userService.save(userRequest.toEntity());
+        User createdUser = this.userService.save(userRequest.toEntity());
         UserResponse responseBody = new UserResponse(createdUser);
         return new ResponseEntity<>(responseBody, HttpStatus.CREATED);
     }
 
-    @PostMapping("/sign-in")
+    @PostMapping(value = "/sign-in")
     public ResponseEntity<JwtTokenResponse> signIn(@RequestBody SignInRequest signInRequest){
-        JwtToken jwtToken = userService.signIn(signInRequest.getUsername(), signInRequest.getPassword());
+        JwtToken jwtToken = this.userService.signIn(signInRequest.getUsername(), signInRequest.getPassword());
         JwtTokenResponse responseBody = new JwtTokenResponse(jwtToken);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<UserResponse> getUserById(@PathVariable(value = "id") UUID id){
+        User user = this.userService.findById(id);
+        UserResponse responseBody = new UserResponse(user);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UserResponse> updateUserById(@PathVariable(value = "id") UUID id, @RequestBody UserRequest userRequest){
+        User updatedUser = this.userService.saveById(id, userRequest.toEntity());
+        UserResponse responseBody= new UserResponse(updatedUser);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<UsersResponse> getUser(
+            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_NUMBER, name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_SIZE, name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "firstName", name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_SORT_DIR, name = "sortDir") String sortDir
+    ){
+        Page<User> userPage = this.userService.findAll(pageNumber, pageSize, sortBy, sortDir);
+        UsersResponse responseBody = new UsersResponse(userPage);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity deleteUserById(@PathVariable(value = "id") UUID id){
+        this.userService.deleteById(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/search/{searchTerm}")
+    public ResponseEntity<UsersResponse> searchUsers(
+            @PathVariable(name = "searchTerm") String searchTerm,
+            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_NUMBER, name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_SIZE, name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "firstName", name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_SORT_DIR, name = "sortDir") String sortDir
+    ){
+        Page<User> userPage = this.userService.search(searchTerm, pageNumber, pageSize, sortBy, sortDir);
+        UsersResponse responseBody = new UsersResponse(userPage);
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 }

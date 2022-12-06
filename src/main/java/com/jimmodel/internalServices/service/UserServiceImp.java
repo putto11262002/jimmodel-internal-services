@@ -117,6 +117,9 @@ public class UserServiceImp implements UserService {
 
     @Override
     public Page<User> search(String searchTerm, Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
-        return null;
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+        return userRepository.search(searchTerm, pageable);
     }
 }
