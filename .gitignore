@@ -33,3 +33,5 @@ build/
 .vscode/
 
 /upload
+
+.DS_Store
