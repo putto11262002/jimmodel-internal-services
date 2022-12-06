@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    username: 'jimmodel'
+    password: 'password'
+    url: jdbc:postgresql://localhost:5432/jimmodel
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+    show-sql: true
+  web:
+    resources:
+      add-mappings: false

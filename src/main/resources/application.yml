@@ -1,0 +1,40 @@
+server:
+  port: 8080
+  error:
+    whitelabel:
+      enabled: false
+
+jwt:
+  token-validity: 18000
+  signing-key: signingkey
+  authorities-key: roles
+  token-prefix: Bearer
+  header-string : Authorization
+
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  mvc:
+    throw-exception-if-no-handler-found: true
+  application:
+    name: internalServices
+  datasource:
+    username: 'jimmodel'
+    password: 'password'
+    url: jdbc:postgresql://localhost:5432/jimmodel
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+    show-sql: true
+  web:
+    resources:
+      add-mappings: false
