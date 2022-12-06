@@ -61,5 +61,16 @@ public class JobController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-
+    @GetMapping(value = "/search/{searchTerm}")
+    public ResponseEntity<JobsResponse> searchJobs(
+            @PathVariable(value = "searchTerm") String searchTerm,
+            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_PAGE_NUMBER, name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_PAGE_SIZE, name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_SORT_BY, name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_SORT_DIR, name = "sortDir") String sortDir
+            ){
+        Page<Event> jobPage = jobService.search(searchTerm, pageNumber, pageSize, sortBy, sortDir);
+        JobsResponse responseBody = new JobsResponse(jobPage);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
 }
