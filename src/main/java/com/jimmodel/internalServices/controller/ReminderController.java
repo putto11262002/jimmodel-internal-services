@@ -1,9 +1,6 @@
 package com.jimmodel.internalServices.controller;
 
-import com.jimmodel.internalServices.config.JobConfig;
-import com.jimmodel.internalServices.config.ModelConfig;
 import com.jimmodel.internalServices.dto.Request.ReminderRequest;
-import com.jimmodel.internalServices.dto.Response.OptionsResponse;
 import com.jimmodel.internalServices.dto.Response.ReminderResponse;
 import com.jimmodel.internalServices.dto.Response.RemindersResponse;
 import com.jimmodel.internalServices.model.Event;
@@ -47,10 +44,10 @@ public class ReminderController {
 
     @GetMapping
     public ResponseEntity<RemindersResponse> getReminders(
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_PAGE_NUMBER, name = "pageNumber") Integer pageNumber,
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_PAGE_SIZE, name = "pageSize") Integer pageSize,
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_SORT_BY, name = "sortBy") String sortBy,
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_SORT_DIR, name = "sortDir") String sortDir
+            @RequestParam(required = false, defaultValue = "0", name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "${data.page-size}", name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "${data.sort-by}", name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = "${data.sort-dir}", name = "sortDir") String sortDir
     ){
         Page<Event> reminderPage = reminderService.findAll(pageNumber, pageSize, sortBy, sortDir);
         RemindersResponse responseBody = new RemindersResponse(reminderPage);
@@ -66,10 +63,11 @@ public class ReminderController {
     @GetMapping(value = "search/{searchTerm}")
     public ResponseEntity<RemindersResponse> searchReminders(
             @PathVariable("searchTerm") String searchTerm,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_NUMBER, name = "pageNumber") Integer pageNumber,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_SIZE, name = "pageSize") Integer pageSize,
-            @RequestParam(required = false, defaultValue = "title", name = "sortBy") String sortBy,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_SORT_DIR, name = "sortDir") String sortDir) {
+            @RequestParam(required = false, defaultValue = "0", name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "${data.page-size}", name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "${data.sort-by}", name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = "${data.sort-dir}", name = "sortDir") String sortDir
+            ) {
         Page<Event> reminderPage = reminderService.search(searchTerm, pageNumber, pageSize, sortBy, sortDir);
         RemindersResponse responseBody = new RemindersResponse(reminderPage);
         return new ResponseEntity<>(responseBody, HttpStatus.OK);

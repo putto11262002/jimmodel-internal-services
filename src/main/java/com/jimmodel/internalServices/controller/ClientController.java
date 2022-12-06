@@ -1,6 +1,5 @@
 package com.jimmodel.internalServices.controller;
 
-import com.jimmodel.internalServices.config.JobConfig;
 import com.jimmodel.internalServices.dto.Request.ClientRequest;
 import com.jimmodel.internalServices.dto.Response.ClientResponse;
 import com.jimmodel.internalServices.dto.Response.ClientsResponse;
@@ -16,11 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @Controller
-@RequestMapping(value = "/v1/client")
+@RequestMapping(value = "/${api-version}/client")
 public class ClientController {
     @Autowired
     private ClientService clientService;
-
     @PostMapping()
     public ResponseEntity<ClientResponse> createClient(@RequestBody ClientRequest clientRequest){
         Client createdClient = clientService.save(clientRequest.toEntity());
@@ -44,10 +42,10 @@ public class ClientController {
 
     @GetMapping()
     public ResponseEntity<ClientsResponse> getClients(
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_PAGE_NUMBER, name = "pageNumber") Integer pageNumber,
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_PAGE_SIZE, name = "pageSize") Integer pageSize,
-            @RequestParam(required = false, defaultValue = "name", name = "sortBy") String sortBy,
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_SORT_DIR, name = "sortDir") String sortDir
+            @RequestParam(required = false, defaultValue = "0", name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "${data.page-size}", name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "${data.client.sort-by}", name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = "${data.sort-dir}", name = "sortDir") String sortDir
     ){
         Page<Client> clientPage = clientService.findAll(pageNumber, pageSize, sortBy, sortDir);
         ClientsResponse responseBody = new ClientsResponse(clientPage);
@@ -63,10 +61,10 @@ public class ClientController {
     @GetMapping(value = "/search/{searchTerm}")
     public ResponseEntity<ClientsResponse> searchClient(
             @PathVariable(name = "searchTerm") String searchTerm,
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_PAGE_NUMBER, name = "pageNumber") Integer pageNumber,
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_PAGE_SIZE, name = "pageSize") Integer pageSize,
-            @RequestParam(required = false, defaultValue = "name", name = "sortBy") String sortBy,
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_SORT_DIR, name = "sortDir") String sortDir){
+            @RequestParam(required = false, defaultValue = "0", name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "${data.page-size}", name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "${data.client.sort-by}", name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = "${data.sort-dir}", name = "sortDir") String sortDir){
         Page<Client> clientPage = clientService.search(searchTerm, pageNumber, pageSize, sortBy, sortDir);
         ClientsResponse responseBody = new ClientsResponse(clientPage);
         return new ResponseEntity<>(responseBody, HttpStatus.OK);

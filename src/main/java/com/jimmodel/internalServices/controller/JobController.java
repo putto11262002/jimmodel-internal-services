@@ -1,6 +1,5 @@
 package com.jimmodel.internalServices.controller;
 
-import com.jimmodel.internalServices.config.JobConfig;
 import com.jimmodel.internalServices.dto.Request.JobRequest;
 import com.jimmodel.internalServices.dto.Response.JobResponse;
 import com.jimmodel.internalServices.dto.Response.JobsResponse;
@@ -44,10 +43,10 @@ public class JobController {
 
     @GetMapping
     public ResponseEntity<JobsResponse> getJobs(
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_PAGE_NUMBER, name = "pageNumber") Integer pageNumber,
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_PAGE_SIZE, name = "pageSize") Integer pageSize,
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_SORT_BY, name = "sortBy") String sortBy,
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_SORT_DIR, name = "sortDir") String sortDir
+            @RequestParam(required = false, defaultValue = "0", name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "${data.page-size}", name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "${data.job.sort-by}", name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = "${data.sort-dir}", name = "sortDir") String sortDir
     ){
 
         Page<Event> jobPage = jobService.findAll(pageNumber, pageSize, sortBy, sortDir);
@@ -64,10 +63,10 @@ public class JobController {
     @GetMapping(value = "/search/{searchTerm}")
     public ResponseEntity<JobsResponse> searchJobs(
             @PathVariable(value = "searchTerm") String searchTerm,
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_PAGE_NUMBER, name = "pageNumber") Integer pageNumber,
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_PAGE_SIZE, name = "pageSize") Integer pageSize,
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_SORT_BY, name = "sortBy") String sortBy,
-            @RequestParam(required = false, defaultValue = JobConfig.DEFAULT_SORT_DIR, name = "sortDir") String sortDir
+            @RequestParam(required = false, defaultValue = "0", name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "${data.page-size}", name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "${data.job.sort-by}", name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = "${data.sort-dir}", name = "sortDir") String sortDir
             ){
         Page<Event> jobPage = jobService.search(searchTerm, pageNumber, pageSize, sortBy, sortDir);
         JobsResponse responseBody = new JobsResponse(jobPage);

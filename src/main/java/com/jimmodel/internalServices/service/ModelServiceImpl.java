@@ -1,6 +1,5 @@
 package com.jimmodel.internalServices.service;
 
-import com.jimmodel.internalServices.config.ModelConfig;
 import com.jimmodel.internalServices.model.BaseEntity;
 import com.jimmodel.internalServices.model.Model;
 import com.jimmodel.internalServices.model.Image;
@@ -26,7 +25,6 @@ import java.io.File;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
@@ -43,6 +41,14 @@ public class ModelServiceImpl implements ModelService{
 
     @Autowired
     Validator validator;
+
+    private final Integer COMP_CARD_IMAGE_LIMIT = 10;
+
+    private final String PROFILE_IMAGE_PREFIX = "profile";
+
+    private final String COMP_CARD_IMAGE_PREFIX = "compcard";
+
+    private final String MODEL_IMAGE_DIR_NAME = "model";
 
     @Override
     public Model save(Model model){
@@ -120,11 +126,11 @@ public class ModelServiceImpl implements ModelService{
             throw new ValidationException("Invalid image format"); // TODO - could potentially use validation exception
         }
         Model model = modelRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Model with id %s does not exist.", id)));
-        if (model.getCompCardImage().size() >= ModelConfig.COMP_CARD_IMAGES_LIMIT){
+        if (model.getCompCardImage().size() >= this.COMP_CARD_IMAGE_LIMIT){
             throw new ValidationException("Exceeded upload limit"); // TODO - create custom exception
         }
-        String fileName = String.format("%s-%s.%s", ModelConfig.COMP_CARD_IMAGE_PREFIX,LocalDateTime.now().atZone(ZoneOffset.UTC), file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1));
-        storageService.save(ModelConfig.MODEL_DIR  + File.separatorChar + model.getId(), fileName, file);
+        String fileName = String.format("%s-%s.%s",this.COMP_CARD_IMAGE_LIMIT,LocalDateTime.now().atZone(ZoneOffset.UTC), file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1));
+        storageService.save(this.MODEL_IMAGE_DIR_NAME  + File.separatorChar + model.getId(), fileName, file);
         Image compCard = Image.builder()
                 .type(MediaType.parseMediaType(file.getContentType()))
                 .fileName(fileName)
@@ -141,8 +147,8 @@ public class ModelServiceImpl implements ModelService{
         }
         Model model = modelRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Model with id %s does not exist.", id)));
 
-        String newFileName =  String.format("%s-%s.%s", ModelConfig.PROFILE_IMAGE_PREFIX, LocalDateTime.now().atZone(ZoneOffset.UTC), file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1));
-        storageService.save(ModelConfig.MODEL_DIR + File.separatorChar + model.getId(),  newFileName, file);
+        String newFileName =  String.format("%s-%s.%s", this.PROFILE_IMAGE_PREFIX, LocalDateTime.now().atZone(ZoneOffset.UTC), file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1));
+        storageService.save(this.MODEL_IMAGE_DIR_NAME + File.separatorChar + model.getId(),  newFileName, file);
         if(model.getProfileImage() != null) { // if not null delete before store new one
             storageService.delete(model.getProfileImage().getFileName());
         }
@@ -172,7 +178,7 @@ public class ModelServiceImpl implements ModelService{
 
     @Override
     public Resource getImage(UUID id, String fileName) {
-        return storageService.load(ModelConfig.MODEL_DIR + File.separatorChar + id + File.separatorChar + fileName);
+        return storageService.load(this.MODEL_IMAGE_DIR_NAME + File.separatorChar + id + File.separatorChar + fileName);
     }
 
     @Override

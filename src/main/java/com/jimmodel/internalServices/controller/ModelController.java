@@ -1,6 +1,5 @@
 package com.jimmodel.internalServices.controller;
 
-import com.jimmodel.internalServices.config.ModelConfig;
 import com.jimmodel.internalServices.model.Model;
 import com.jimmodel.internalServices.model.Image;
 import com.jimmodel.internalServices.dto.Request.ModelRequest;
@@ -44,10 +43,10 @@ public class ModelController {
 
     @GetMapping
     public ResponseEntity<ModelsResponse> getModels(
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_NUMBER, name = "pageNumber") Integer pageNumber,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_SIZE, name = "pageSize") Integer pageSize,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_SORT_BY, name = "sortBy") String sortBy,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_SORT_DIR, name = "sortDir") String sortDir
+            @RequestParam(required = false, defaultValue = "0", name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "${data.page-size}", name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "${data.model.sort-by}", name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = "${data.sort-dir}", name = "sortDir") String sortDir
     ) {
         Page<Model> modelPages = modelService.findAll(pageNumber, pageSize, sortBy, sortDir);
         ModelsResponse responseBody = new ModelsResponse(modelPages);
@@ -70,10 +69,10 @@ public class ModelController {
     @GetMapping(value = "/search/{searchTerm}")
     public ResponseEntity<ModelsResponse> searchModel(
             @PathVariable(name = "searchTerm") String searchTerm,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_NUMBER, name = "pageNumber") Integer pageNumber,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_SIZE, name = "pageSize") Integer pageSize,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_SORT_BY, name = "sortBy") String sortBy,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_SORT_DIR, name = "sortDir") String sortDir
+            @RequestParam(required = false, defaultValue = "0", name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "${data.page-size}", name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "${data.model.sort-by}", name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = "${data.sort-dir}", name = "sortDir") String sortDir
     ){
         Page<Model> modelPage =  modelService.search(searchTerm, pageNumber, pageSize, sortBy, sortDir);
         ModelsResponse responseBody = new ModelsResponse(modelPage);

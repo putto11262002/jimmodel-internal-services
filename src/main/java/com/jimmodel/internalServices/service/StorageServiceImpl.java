@@ -1,10 +1,10 @@
 package com.jimmodel.internalServices.service;
 
-import com.jimmodel.internalServices.config.StorageConfig;
 import com.jimmodel.internalServices.exception.FileNotFoundException;
 import com.jimmodel.internalServices.exception.ResourceNotFoundException;
 import com.jimmodel.internalServices.exception.StorageReadException;
 import com.jimmodel.internalServices.exception.StorageWriteException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -15,16 +15,16 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @Service
 public class StorageServiceImpl implements StorageService{
 
-    private Path rootPath = Paths.get(StorageConfig.ROOT_DIR);
+    @Value(value = "${file-storage.root-dir}")
+    private Path ROOT_PATH;
     @Override
     public void init() {
                 try{
-                    Files.createDirectories(this.rootPath);
+                    Files.createDirectories(this.ROOT_PATH);
                 }catch (IOException exception){
                     throw new StorageWriteException("Could not initialise storage directories");
                 }
@@ -43,12 +43,12 @@ public class StorageServiceImpl implements StorageService{
     @Override
     public void save(String dirName, String fileName, MultipartFile file)  {
 
-        File dir = new File(this.rootPath.resolve(dirName).toString());
+        File dir = new File(this.ROOT_PATH.resolve(dirName).toString());
         if (!dir.exists()){
             dir.mkdirs();
         }
         try{
-            Path fullFilePath =  this.rootPath.resolve(dirName).resolve(fileName);
+            Path fullFilePath =  this.ROOT_PATH.resolve(dirName).resolve(fileName);
             Files.copy(file.getInputStream(), fullFilePath);
         }catch (IOException exception){
             throw new StorageWriteException(exception.getMessage());
@@ -58,7 +58,7 @@ public class StorageServiceImpl implements StorageService{
     @Override
     public Resource load(String filePath) {
         try{
-            Resource resource = new UrlResource(this.rootPath.resolve(filePath).toUri());
+            Resource resource = new UrlResource(this.ROOT_PATH.resolve(filePath).toUri());
             if (!resource.exists()){
                 throw new ResourceNotFoundException(String.format("File %s does not exist", filePath));
             }
@@ -74,7 +74,7 @@ public class StorageServiceImpl implements StorageService{
 
     @Override
     public void delete(String filePath){
-        File file = new File(this.rootPath.resolve(filePath).toString());
+        File file = new File(this.ROOT_PATH.resolve(filePath).toString());
         if(!file.exists() && !file.isFile()){
             throw new FileNotFoundException(String.format("%s does not exist", filePath));
         }

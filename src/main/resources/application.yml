@@ -4,12 +4,32 @@ server:
     whitelabel:
       enabled: false
 
+api-version: v1
+
+file-storage:
+  root-dir: "upload"
 jwt:
   token-validity: 18000
   signing-key: signingkey
   authorities-key: roles
   token-prefix: Bearer
   header-string : Authorization
+
+data:
+  sort-dir: "asc"
+  page-size: 20
+  job:
+    sort-by: title
+  model:
+    sort-by: firstName
+  option:
+    sort-by: title
+  reminder:
+    sort-by: title
+  user:
+    sort-by: firstName
+  client:
+    sort-by: name
 
 
 spring:

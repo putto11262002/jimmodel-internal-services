@@ -1,6 +1,5 @@
 package com.jimmodel.internalServices.controller;
 
-import com.jimmodel.internalServices.config.ModelConfig;
 import com.jimmodel.internalServices.dto.Request.OptionRequest;
 import com.jimmodel.internalServices.dto.Response.JobResponse;
 import com.jimmodel.internalServices.dto.Response.OptionResponse;
@@ -45,10 +44,10 @@ public class OptionController {
 
     @GetMapping
     public ResponseEntity<OptionsResponse> getOptions(
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_NUMBER, name = "pageNumber") Integer pageNumber,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_SIZE, name = "pageSize") Integer pageSize,
-            @RequestParam(required = false, defaultValue = "title", name = "sortBy") String sortBy,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_SORT_DIR, name = "sortDir") String sortDir
+            @RequestParam(required = false, defaultValue = "0", name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "${data.page-size}", name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "${data.option.sort-by}", name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = "${data.sort-dir}", name = "sortDir") String sortDir
     ){
         Page<Event> optionPage = optionService.findAll(pageNumber, pageSize, sortBy, sortDir);
         OptionsResponse responseBody = new OptionsResponse(optionPage);
@@ -71,10 +70,11 @@ public class OptionController {
     @GetMapping(value = "/search/{searchTerm}")
     public ResponseEntity<OptionsResponse> search(
             @PathVariable("searchTerm") String searchTerm,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_NUMBER, name = "pageNumber") Integer pageNumber,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_SIZE, name = "pageSize") Integer pageSize,
-            @RequestParam(required = false, defaultValue = "title", name = "sortBy") String sortBy,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_SORT_DIR, name = "sortDir") String sortDir){
+            @RequestParam(required = false, defaultValue = "0", name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "${data.page-size}", name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "${data.option.sort-by}", name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = "${data.sort-dir}", name = "sortDir") String sortDir
+    ){
         Page<Event> optionPage = optionService.search(searchTerm, pageNumber, pageSize, sortBy, sortDir);
         OptionsResponse responseBody = new OptionsResponse(optionPage);
         return new ResponseEntity<>(responseBody, HttpStatus.OK);

@@ -1,6 +1,5 @@
 package com.jimmodel.internalServices.controller;
 
-import com.jimmodel.internalServices.config.ModelConfig;
 import com.jimmodel.internalServices.dto.Request.SignInRequest;
 import com.jimmodel.internalServices.dto.Request.UserRequest;
 import com.jimmodel.internalServices.dto.Response.JwtTokenResponse;
@@ -56,10 +55,10 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<UsersResponse> getUser(
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_NUMBER, name = "pageNumber") Integer pageNumber,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_SIZE, name = "pageSize") Integer pageSize,
-            @RequestParam(required = false, defaultValue = "firstName", name = "sortBy") String sortBy,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_SORT_DIR, name = "sortDir") String sortDir
+            @RequestParam(required = false, defaultValue = "0", name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "${data.page-size}", name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "${data.user.sort-by}", name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = "${data.sort-dir}", name = "sortDir") String sortDir
     ){
         Page<User> userPage = this.userService.findAll(pageNumber, pageSize, sortBy, sortDir);
         UsersResponse responseBody = new UsersResponse(userPage);
@@ -75,10 +74,10 @@ public class UserController {
     @GetMapping(value = "/search/{searchTerm}")
     public ResponseEntity<UsersResponse> searchUsers(
             @PathVariable(name = "searchTerm") String searchTerm,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_NUMBER, name = "pageNumber") Integer pageNumber,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_PAGE_SIZE, name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "0", name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "20", name = "pageSize") Integer pageSize,
             @RequestParam(required = false, defaultValue = "firstName", name = "sortBy") String sortBy,
-            @RequestParam(required = false, defaultValue = ModelConfig.DEFAULT_SORT_DIR, name = "sortDir") String sortDir
+            @RequestParam(required = false, defaultValue = "asc", name = "sortDir") String sortDir
     ){
         Page<User> userPage = this.userService.search(searchTerm, pageNumber, pageSize, sortBy, sortDir);
         UsersResponse responseBody = new UsersResponse(userPage);
