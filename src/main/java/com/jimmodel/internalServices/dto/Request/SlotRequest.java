@@ -7,15 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.util.Collection;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class SlotResponse {
+public class SlotRequest {
 
     private UUID id;
     private Instant startTimestamp;
@@ -24,8 +22,8 @@ public class SlotResponse {
 
     public Slot toEntity(){
         return Slot.builder()
-                .startTimestamp(startTimestamp)
-                .endTimestamp(endTimestamp)
+                .startTimestamp(this.startTimestamp)
+                .endTimestamp(this.endTimestamp)
                 .id(this.id)
                 .build();
     }

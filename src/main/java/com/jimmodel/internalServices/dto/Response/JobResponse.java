@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobResponse {
+public class JobResponse extends EventResponse {
 
     private UUID id;
     private String title;
@@ -30,7 +30,7 @@ public class JobResponse {
     private String cancellationFee;
     private String contractDetails;
     private String note;
-    private String type;
+    private Event.TYPE type;
 
     public JobResponse(Event job){
         this.id = job.getId();

@@ -19,7 +19,7 @@ public class JobRequest {
 
     private UUID id;
     private String title;
-    private Collection<SlotResponse> slots;
+    private Collection<SlotRequest> slots;
     private ClientRequest client;
     private String personInCharge;
     private String mediaReleased;
@@ -33,7 +33,7 @@ public class JobRequest {
     private String contractDetails;
     private Collection<ModelRequest> relatedModels;
     private String note;
-    private String type;
+    private Event.TYPE type;
 
 
     public Event toEntity(){

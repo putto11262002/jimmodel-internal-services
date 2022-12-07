@@ -32,7 +32,6 @@ public class OptionServiceImpl implements OptionService{
     @Autowired
     private ModelRepository modelRepository;
 
-    public final String TYPE = "option";
 
     @Override
     public Event save(Event option) {
@@ -52,7 +51,7 @@ public class OptionServiceImpl implements OptionService{
         }
 
         option.setRelatedModels(relatedModels);
-        option.setType(this.TYPE);
+        option.setType(Event.TYPE.OPTION);
         return eventRepository.save(option);
     }
 
@@ -69,14 +68,14 @@ public class OptionServiceImpl implements OptionService{
 
     @Override
     public Event findById(UUID id) {
-        return eventRepository.findByTypeAndId(this.TYPE, id).orElseThrow(() -> new ResourceNotFoundException(String.format("Option with id %s does not exist", id)));
+        return eventRepository.findByTypeAndId(Event.TYPE.OPTION, id).orElseThrow(() -> new ResourceNotFoundException(String.format("Option with id %s does not exist", id)));
     }
 
     @Override
     public Page<Event> findAll(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
         Sort sort = sortBy.equalsIgnoreCase(Sort.Direction.DESC.name()) ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
-        Page<Event> optionPage =  eventRepository.findAllByType(this.TYPE, pageable);
+        Page<Event> optionPage =  eventRepository.findAllByType(Event.TYPE.OPTION, pageable);
         return optionPage;
     }
 
@@ -91,14 +90,14 @@ public class OptionServiceImpl implements OptionService{
                         .mediaReleased(option.getMediaReleased())
                         .territoriesReleased(option.getTerritoriesReleased())
                         .workingHour(option.getWorkingHour())
-                        .type("job")
+                        .type(Event.TYPE.JOB)
                 .build());
         return createdJob;
     }
 
     @Override
     public void deleteById(UUID id) {
-        if(!eventRepository.existsByTypeAndId(this.TYPE, id)){
+        if(!eventRepository.existsByTypeAndId(Event.TYPE.OPTION, id)){
             new ResourceNotFoundException(String.format("Option with id %s does not exist", id));
         }
         eventRepository.deleteById(id);
@@ -108,6 +107,6 @@ public class OptionServiceImpl implements OptionService{
     public Page<Event> search(String searchTerm, Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
         Sort sort = sortBy.equalsIgnoreCase(Sort.Direction.DESC.name()) ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
-        return eventRepository.search(this.TYPE, searchTerm, pageable);
+        return eventRepository.search(Event.TYPE.OPTION, searchTerm, pageable);
     }
 }

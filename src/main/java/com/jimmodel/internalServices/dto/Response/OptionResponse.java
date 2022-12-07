@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OptionResponse {
+public class OptionResponse extends EventResponse{
 
     private UUID id;
     private String title;
@@ -23,7 +23,7 @@ public class OptionResponse {
     private String territoriesReleased;
     private String workingHour;
     private String note;
-    private String type;
+    private Event.TYPE type;
 
     public OptionResponse(Event option){
         this.id = option.getId();

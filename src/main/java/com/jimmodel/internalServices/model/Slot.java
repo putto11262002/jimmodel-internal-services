@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "event")
+@Table(name = "slot")
 @Builder
 public class Slot extends BaseEntity {
 
@@ -24,6 +24,6 @@ public class Slot extends BaseEntity {
     private Instant startTimestamp;
     private Instant endTimestamp;
     @ManyToOne(cascade = CascadeType.ALL)
-    private Event task;
+    private Event event;
 
 }

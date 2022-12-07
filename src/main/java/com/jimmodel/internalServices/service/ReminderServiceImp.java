@@ -50,7 +50,7 @@ public class ReminderServiceImp implements ReminderService{
         }
 
         reminder.setRelatedModels(relatedModels);
-        reminder.setType("reminder");
+        reminder.setType(Event.TYPE.REMINDER);
 
         return null;
     }
@@ -66,19 +66,19 @@ public class ReminderServiceImp implements ReminderService{
 
     @Override
     public Event findById(UUID id) {
-        return eventRepository.findByTypeAndId("reminder", id).orElseThrow(() -> new ResourceNotFoundException(String.format("Reminder with id %s does not exist.", id)));
+        return eventRepository.findByTypeAndId(Event.TYPE.REMINDER, id).orElseThrow(() -> new ResourceNotFoundException(String.format("Reminder with id %s does not exist.", id)));
     }
 
     @Override
     public Page<Event> findAll(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
         Sort sort = sortBy.equalsIgnoreCase(Sort.Direction.DESC.name()) ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
-        return eventRepository.findAllByType("reminder", pageable);
+        return eventRepository.findAllByType(Event.TYPE.REMINDER, pageable);
     }
 
     @Override
     public void deleteById(UUID id) {
-        if(!eventRepository.existsById(id)){
+        if(!eventRepository.existsByTypeAndId(Event.TYPE.REMINDER, id)){
             throw new ResourceNotFoundException(String.format("Reminder with id %s does not exist.", id));
         }
         eventRepository.deleteById(id);
@@ -88,6 +88,6 @@ public class ReminderServiceImp implements ReminderService{
     public Page<Event> search(String searchTerm, Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
         Sort sort = sortBy.equalsIgnoreCase(Sort.Direction.DESC.name()) ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
-        return eventRepository.search("reminder", searchTerm, pageable);
+        return eventRepository.search(Event.TYPE.REMINDER, searchTerm, pageable);
     }
 }

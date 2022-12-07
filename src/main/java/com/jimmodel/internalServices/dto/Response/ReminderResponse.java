@@ -10,14 +10,14 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Data
-public class ReminderResponse {
+public class ReminderResponse extends EventResponse {
 
     private UUID id;
     private String title;
     private Collection<SlotResponse> slots;
     private Collection<ModelResponse> relatedModels;
     private String note;
-    private String type;
+    private Event.TYPE type;
 
     public ReminderResponse(Event reminder){
         this.id = reminder.getId();

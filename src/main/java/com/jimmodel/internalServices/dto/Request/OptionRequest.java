@@ -18,19 +18,19 @@ public class OptionRequest {
 
     private UUID id;
     private String title;
-    private Collection<SlotResponse> slots;
+    private Collection<SlotRequest> slots;
 
     private Collection<ModelRequest> relatedModels;
     private String mediaReleased;
     private String territoriesReleased;
     private String workingHour;
     private String note;
-    private String type;
+    private Event.TYPE type;
 
     public Event toEntity(){
         return Event.builder()
                 .title(this.title)
-                .slots(this.slots != null ? this.slots.stream().map(slotResponse -> slotResponse.toEntity()).collect(Collectors.toList()) : null)
+                .slots(this.slots != null ? this.slots.stream().map(slotRequest -> slotRequest.toEntity()).collect(Collectors.toList()) : null)
                 .relatedModels(this.relatedModels != null ? this.relatedModels.stream().map(modelRequest -> modelRequest.toEntity()).collect(Collectors.toList()) : null)
                 .mediaReleased(this.mediaReleased)
                 .territoriesReleased(this.territoriesReleased)

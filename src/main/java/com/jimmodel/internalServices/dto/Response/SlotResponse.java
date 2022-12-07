@@ -24,6 +24,6 @@ public class SlotResponse {
         this.startTimestamp = slot.getStartTimestamp();
         this.endTimestamp = slot.getEndTimestamp();
 //        System.out.println(event.getTask());
-        this.event = slot.getTask() != null ? new SlotTaskResponse(slot.getTask()) : null;
+        this.event = slot.getEvent() != null ? new SlotTaskResponse(slot.getEvent()) : null;
     }
 }
