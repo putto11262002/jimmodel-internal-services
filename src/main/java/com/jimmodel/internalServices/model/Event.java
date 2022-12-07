@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.HashSet;
@@ -54,27 +55,38 @@ public class Event extends BaseEntity {
     @GeneratedValue(generator = "uuid-generator")
     @GenericGenerator(name = "uuid-generator",strategy = "com.jimmodel.internalServices.config.UUIDGenerator")
     @EqualsAndHashCode.Include private UUID id;
-    @NotNull(groups = {JobInfo.class, OptionInfo.class, ReminderInfo.class}, message = "Title cannot be null.")
+    @NotNull(groups = {JobInfo.class, OptionInfo.class, ReminderInfo.class}, message = "Title cannot be blank.")
     protected String title;
     @OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     protected Collection<Slot> slots;
     @ManyToMany
     @Valid
     protected Collection<Model> relatedModels;
+    @NotNull(message = "Client cannot be blank.", groups = {JobInfo.class})
     @OneToOne(cascade = CascadeType.ALL)
     @Valid
     private Client client;
+    @NotBlank(message = "Person in charge cannot be blank.", groups = {JobInfo.class})
     private String personInCharge;
+    @NotBlank(message = "Media released cannot be blank.", groups = {JobInfo.class})
     private String mediaReleased;
+    @NotBlank(message = "Person released cannot be blank.", groups = {JobInfo.class})
     private String periodReleased;
+    @NotBlank(message = "Territories released cannot be blank.", groups = {JobInfo.class})
     private String territoriesReleased;
+    @NotBlank(message = "Working hour cannot be blank.", groups = {JobInfo.class})
     private String workingHour;
+    @NotBlank(message = "Overtime per hour cannot be blank.", groups = {JobInfo.class})
     private String overtimePerHour;
+    @NotBlank(message = "Fee as agreed cannot be blank.", groups = {JobInfo.class})
     private String feeAsAgreed;
+    @NotBlank(message = "Term of payment cannot be blank.", groups = {JobInfo.class})
     private String termOfPayment;
+    @NotBlank(message = "Cancellation fee cannot be blank.", groups = {JobInfo.class})
     private String cancellationFee;
     private String contractDetails;
     private String note;
+    @NotNull(message = "Type cannot be blank.", groups = {JobInfo.class, OptionInfo.class, ReminderInfo.class})
     private TYPE type;
     public Event(String title, Collection<Slot> slots, Collection<Model> relatedModels){
         this.title = title;

@@ -35,6 +35,8 @@ public class JobServiceImp implements JobService{
 
     @Override
     public Event save(Event job) {
+        job.setType(Event.TYPE.JOB);
+
         Set<ConstraintViolation<BaseEntity>>  violations = validator.validate(job, Event.JobInfo.class);
         if (!violations.isEmpty()){
             throw new ValidationException("Job validation failed", violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList()));
@@ -47,6 +49,7 @@ public class JobServiceImp implements JobService{
         if(job.getClient() != null){
             Optional<Client> existingClient = clientRepository.findById(job.getClient().getId());
             if(existingClient.isPresent()) client = existingClient.get();
+            else throw new ResourceNotFoundException(String.format("Client with id %s does not exist", job.getClient().getId()));
         }
 
 
@@ -56,13 +59,9 @@ public class JobServiceImp implements JobService{
                 if (existingModel.isPresent()) relatedModels.add(existingModel.get());
             });
         }
-//        if(job.getSlots() != null){
-//            job.getSlots().forEach(slot -> slot.setEvent(job));
-//        }
 
         job.setRelatedModels(relatedModels);
         job.setClient(client);
-        job.setType(Event.TYPE.JOB);
 
         return eventRepository.save(job);
     }
