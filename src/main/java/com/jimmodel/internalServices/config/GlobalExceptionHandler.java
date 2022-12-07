@@ -3,6 +3,7 @@ package com.jimmodel.internalServices.config;
 import com.jimmodel.internalServices.dto.Response.ErrorResponse;
 import com.jimmodel.internalServices.exception.JwtException;
 import com.jimmodel.internalServices.exception.ResourceNotFoundException;
+import com.jimmodel.internalServices.exception.ValidationException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
@@ -42,6 +44,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     public ResponseEntity<ErrorResponse> resourceNotFoundExceptionHandler(HttpServletRequest request, ResourceNotFoundException exception){
         ErrorResponse responseBody = ErrorResponse.builder()
                 .messages(List.of(exception.getMessage()))
+                .errorMessageKey(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .errorCode(HttpStatus.BAD_REQUEST.value())
+                .url(request.getRequestURI())
+                .method(request.getMethod())
+                .timestamp(Instant.now())
+                .build();
+        return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ErrorResponse> validationException(HttpServletRequest request, ValidationException exception){
+        ErrorResponse responseBody = ErrorResponse.builder()
+                .messages(exception.getViolations())
                 .errorMessageKey(HttpStatus.BAD_REQUEST.getReasonPhrase())
                 .errorCode(HttpStatus.BAD_REQUEST.value())
                 .url(request.getRequestURI())

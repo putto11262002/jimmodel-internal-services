@@ -17,6 +17,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service(value = "clientService")
 public class ClientServiceImp implements ClientService{
@@ -31,7 +32,7 @@ public class ClientServiceImp implements ClientService{
     public Client save(Client client) {
         Set<ConstraintViolation<BaseEntity>> violations = validator.validate(client);
         if (!violations.isEmpty()){
-            throw new ValidationException("Client validation failed", violations);
+            throw new ValidationException("Client validation failed", violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList()));
         }
         return clientRepository.save(client);
     }

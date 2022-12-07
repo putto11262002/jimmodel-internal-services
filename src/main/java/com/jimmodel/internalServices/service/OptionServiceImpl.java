@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class OptionServiceImpl implements OptionService{
@@ -38,7 +39,7 @@ public class OptionServiceImpl implements OptionService{
         option.toOption();
         Set<ConstraintViolation<BaseEntity>> violations = validator.validate(option, Event.OptionInfo.class);
         if(!violations.isEmpty()){
-            throw new ValidationException("Option validation failed", violations);
+            throw new ValidationException("Option validation failed", violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList()));
         }
         Collection<Model> relatedModels = new HashSet<>();
 

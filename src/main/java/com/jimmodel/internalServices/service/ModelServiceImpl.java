@@ -17,9 +17,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
 import javax.validation.Validator;
 import java.io.File;
 
@@ -27,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ModelServiceImpl implements ModelService{
@@ -54,7 +57,7 @@ public class ModelServiceImpl implements ModelService{
     public Model save(Model model){
         Set<ConstraintViolation<BaseEntity>> violations = validator.validate(model);
         if(!violations.isEmpty()){
-            throw new ValidationException("Model constraints violated", violations);
+            throw new ValidationException("Model constraints violated", violations.stream().map(violation ->violation.getMessage()).collect(Collectors.toList()));
         }
         return modelRepository.save(model);
     }
@@ -68,10 +71,6 @@ public class ModelServiceImpl implements ModelService{
     @Override
     public Model saveById(UUID id, Model updatedModel) {
         Model model = modelRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Model with id %s does not exist.", id)));
-//        Set<ConstraintViolation<BaseEntity>> violations = validator.validate(updatedModel);
-//        if(!violations.isEmpty()){
-//            throw new ValidationException("Model constraints violated", violations);
-//        }
 
         model.setFirstName(updatedModel.getFirstName());
         model.setLastName(updatedModel.getLastName());
@@ -129,7 +128,7 @@ public class ModelServiceImpl implements ModelService{
         if (model.getCompCardImage().size() >= this.COMP_CARD_IMAGE_LIMIT){
             throw new ValidationException("Exceeded upload limit"); // TODO - create custom exception
         }
-        String fileName = String.format("%s-%s.%s",this.COMP_CARD_IMAGE_LIMIT,LocalDateTime.now().atZone(ZoneOffset.UTC), file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1));
+        String fileName = String.format("%s-%s.%s",this.COMP_CARD_IMAGE_PREFIX,LocalDateTime.now().atZone(ZoneOffset.UTC), file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1));
         storageService.save(this.MODEL_IMAGE_DIR_NAME  + File.separatorChar + model.getId(), fileName, file);
         Image compCard = Image.builder()
                 .type(MediaType.parseMediaType(file.getContentType()))

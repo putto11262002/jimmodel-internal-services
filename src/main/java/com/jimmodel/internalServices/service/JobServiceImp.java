@@ -17,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class JobServiceImp implements JobService{
@@ -36,7 +37,7 @@ public class JobServiceImp implements JobService{
     public Event save(Event job) {
         Set<ConstraintViolation<BaseEntity>>  violations = validator.validate(job, Event.JobInfo.class);
         if (!violations.isEmpty()){
-            throw new ValidationException("Job validation failed", violations);
+            throw new ValidationException("Job validation failed", violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList()));
         }
 
         Collection<Model> relatedModels = new HashSet<>();
