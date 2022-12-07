@@ -34,7 +34,6 @@ public class ReminderServiceImp implements ReminderService{
 
     @Override
     public Event save(Event reminder) {
-        reminder.toReminder();
         Set<ConstraintViolation<BaseEntity>> violations = validator.validate(reminder, Event.ReminderInfo.class);
         if(!violations.isEmpty()){
             throw new ValidationException("Reminder validation failed", violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList()));
@@ -51,9 +50,8 @@ public class ReminderServiceImp implements ReminderService{
         }
 
         reminder.setRelatedModels(relatedModels);
-        reminder.setType(Event.TYPE.REMINDER);
 
-        return null;
+        return eventRepository.save(reminder);
     }
 
     @Override

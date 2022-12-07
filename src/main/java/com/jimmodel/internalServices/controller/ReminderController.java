@@ -46,7 +46,7 @@ public class ReminderController {
     public ResponseEntity<RemindersResponse> getReminders(
             @RequestParam(required = false, defaultValue = "0", name = "pageNumber") Integer pageNumber,
             @RequestParam(required = false, defaultValue = "${data.page-size}", name = "pageSize") Integer pageSize,
-            @RequestParam(required = false, defaultValue = "${data.sort-by}", name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = "${data.reminder.sort-by}", name = "sortBy") String sortBy,
             @RequestParam(required = false, defaultValue = "${data.sort-dir}", name = "sortDir") String sortDir
     ){
         Page<Event> reminderPage = reminderService.findAll(pageNumber, pageSize, sortBy, sortDir);
@@ -65,7 +65,7 @@ public class ReminderController {
             @PathVariable("searchTerm") String searchTerm,
             @RequestParam(required = false, defaultValue = "0", name = "pageNumber") Integer pageNumber,
             @RequestParam(required = false, defaultValue = "${data.page-size}", name = "pageSize") Integer pageSize,
-            @RequestParam(required = false, defaultValue = "${data.sort-by}", name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = "${data.reminder.sort-by}", name = "sortBy") String sortBy,
             @RequestParam(required = false, defaultValue = "${data.sort-dir}", name = "sortDir") String sortDir
             ) {
         Page<Event> reminderPage = reminderService.search(searchTerm, pageNumber, pageSize, sortBy, sortDir);

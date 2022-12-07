@@ -21,12 +21,13 @@ public class ReminderRequest {
     private Event.TYPE type;
 
     public Event toEntity(){
-        return Event.builder()
-                .title(this.title)
-                .slots(this.slots != null ? this.slots.stream().map(slotRequest -> slotRequest.toEntity()).collect(Collectors.toList()) : null)
-                .relatedModels(this.relatedModels != null ? this.relatedModels.stream().map(modelRequest -> modelRequest.toEntity()).collect(Collectors.toList()) : null)
-                .note(this.note)
-                .type(this.type)
-                .build();
+        return Event.reminderBuilder(
+                this.id,
+                this.title,
+                this.slots != null ? this.slots.stream().map(slotRequest -> slotRequest.toEntity()).collect(Collectors.toList()) : null,
+                this.relatedModels != null ? this.relatedModels.stream().map(modelRequest -> modelRequest.toEntity()).collect(Collectors.toList()) : null,
+                this.note
+        );
+
     }
 }

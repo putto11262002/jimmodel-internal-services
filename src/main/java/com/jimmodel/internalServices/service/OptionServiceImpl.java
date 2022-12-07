@@ -36,7 +36,6 @@ public class OptionServiceImpl implements OptionService{
 
     @Override
     public Event save(Event option) {
-        option.toOption();
         Set<ConstraintViolation<BaseEntity>> violations = validator.validate(option, Event.OptionInfo.class);
         if(!violations.isEmpty()){
             throw new ValidationException("Option validation failed", violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList()));
@@ -53,7 +52,6 @@ public class OptionServiceImpl implements OptionService{
         }
 
         option.setRelatedModels(relatedModels);
-        option.setType(Event.TYPE.OPTION);
         return eventRepository.save(option);
     }
 

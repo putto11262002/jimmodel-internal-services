@@ -146,28 +146,17 @@ public class Event extends BaseEntity {
                 .build();
     }
 
-    public void toOption(){
-        this.setClient(null);
-        this.setCancellationFee(null);
-        this.setContractDetails(null);
-        this.setOvertimePerHour(null);
-        this.setFeeAsAgreed(null);
+    public static Event reminderBuilder(UUID id, String title, Collection<Slot> slots, Collection<Model> relatedModels, String not){
+        return Event.builder()
+                .id(id)
+                .title(title)
+                .slots(slots)
+                .relatedModels(relatedModels)
+                .note(not)
+                .type(TYPE.REMINDER)
+                .build();
     }
 
-    public void toReminder(){
-        this.setClient(null);
-        this.setCancellationFee(null);
-        this.setContractDetails(null);
-        this.setOvertimePerHour(null);
-        this.setFeeAsAgreed(null);
-        this.setOvertimePerHour(null);
-        this.setTerritoriesReleased(null);
-        this.setMediaReleased(null);
-        this.setPeriodReleased(null);
-        this.setPersonInCharge(null);
-        this.setTermOfPayment(null);
-        this.setWorkingHour(null);
-    }
 
     public void setRelatedModels(Collection<Model> relatedModels){
         if (this.relatedModels == null){
