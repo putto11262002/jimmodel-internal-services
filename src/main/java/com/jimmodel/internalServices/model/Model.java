@@ -29,9 +29,12 @@ public class Model  extends BaseEntity{
     @GenericGenerator(name = "uuid-generator",strategy = "com.jimmodel.internalServices.config.UUIDGenerator")
     @NotNull(groups = {Event.JobInfo.class, Event.ReminderInfo.class, Event.OptionInfo.class}, message = "Model id cannot be empty.")
     @EqualsAndHashCode.Include private UUID id;
+    @NotBlank(message = "First name cannot be blank.")
     private String firstName;
+    @NotBlank(message = "Last name cannot be blank.")
     private String lastName;
     private String otherNames;
+    @NotBlank(message = "Email cannot be blank.")
     private String email;
     private String phoneNumber;
     private String lineId;
@@ -40,6 +43,7 @@ public class Model  extends BaseEntity{
     private String instagram;
     private String facebook;
     private LocalDate dateOfBirth;
+    @NotBlank(message = "Gender cannot be blank.")
     private String gender;
     private String nationality;
     private String ethnicity;
