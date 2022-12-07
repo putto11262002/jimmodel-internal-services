@@ -56,6 +56,7 @@ public class JobServiceImp implements JobService{
             job.getRelatedModels().forEach(model -> {
                 Optional<Model> existingModel = modelRepository.findById(model.getId());
                 if (existingModel.isPresent()) relatedModels.add(existingModel.get());
+                else throw new ResourceNotFoundException(String.format("Model with id %s does not exist.", model.getId()));
             });
         }
 
