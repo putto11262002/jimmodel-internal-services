@@ -48,6 +48,7 @@ public class OptionServiceImpl implements OptionService{
                 if (model.getId() == null ) return;
                 Optional<Model> existingModel = modelRepository.findById(model.getId());
                 if(existingModel.isPresent()) relatedModels.add(existingModel.get());
+                else throw new ResourceNotFoundException(String.format("Model with id %s does not exist.", model.getId()));
             });
         }
 

@@ -2,6 +2,7 @@ package com.jimmodel.internalServices.model;
 
 
 import lombok.*;
+import org.h2.engine.Mode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -71,13 +72,13 @@ public class Event extends BaseEntity {
     private Client client;
     @NotBlank(message = "Person in charge cannot be blank.", groups = {JobInfo.class})
     private String personInCharge;
-    @NotBlank(message = "Media released cannot be blank.", groups = {JobInfo.class})
+    @NotBlank(message = "Media released cannot be blank.", groups = {JobInfo.class, OptionInfo.class})
     private String mediaReleased;
     @NotBlank(message = "Person released cannot be blank.", groups = {JobInfo.class})
     private String periodReleased;
-    @NotBlank(message = "Territories released cannot be blank.", groups = {JobInfo.class})
+    @NotBlank(message = "Territories released cannot be blank.", groups = {JobInfo.class, OptionInfo.class})
     private String territoriesReleased;
-    @NotBlank(message = "Working hour cannot be blank.", groups = {JobInfo.class})
+    @NotBlank(message = "Working hour cannot be blank.", groups = {JobInfo.class, OptionInfo.class})
     private String workingHour;
     @NotBlank(message = "Overtime per hour cannot be blank.", groups = {JobInfo.class})
     private String overtimePerHour;
@@ -128,6 +129,20 @@ public class Event extends BaseEntity {
                 .relatedModels(relatedModels)
                 .note(note)
                 .type(TYPE.JOB)
+                .build();
+    }
+
+    public static Event optionBuilder(UUID id, String title, Collection<Slot> slots, Collection<Model> relatedModels, String mediaReleased, String territoriesReleased, String workingHour, String note){
+        return Event.builder()
+                .id(id)
+                .title(title)
+                .slots(slots)
+                .relatedModels(relatedModels)
+                .mediaReleased(mediaReleased)
+                .territoriesReleased(territoriesReleased)
+                .workingHour(workingHour)
+                .note(note)
+                .type(TYPE.OPTION)
                 .build();
     }
 

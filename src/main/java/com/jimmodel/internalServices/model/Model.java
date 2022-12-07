@@ -28,7 +28,7 @@ public class Model  extends BaseEntity{
     @Id
     @GeneratedValue(generator = "uuid-generator")
     @GenericGenerator(name = "uuid-generator",strategy = "com.jimmodel.internalServices.config.UUIDGenerator")
-    @NotNull(groups = {Event.JobInfo.class, Event.ReminderInfo.class, Event.OptionInfo.class}, message = "Model id cannot be empty.")
+    @NotNull(groups = {Event.JobInfo.class, Event.ReminderInfo.class, Event.OptionInfo.class}, message = "Model id cannot be blank.")
     @EqualsAndHashCode.Include private UUID id;
     @NotBlank(message = "First name cannot be blank.")
     private String firstName;
