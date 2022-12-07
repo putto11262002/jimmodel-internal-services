@@ -23,6 +23,7 @@ public class Slot extends BaseEntity {
     @EqualsAndHashCode.Include private UUID id;
     private Instant startTimestamp;
     private Instant endTimestamp;
+    private String type;
     @ManyToOne(cascade = CascadeType.ALL)
     private Event event;
 

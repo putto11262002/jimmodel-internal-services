@@ -3,11 +3,9 @@ package com.jimmodel.internalServices.model;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.HashSet;
@@ -20,10 +18,34 @@ import java.util.UUID;
 @Table(name = "task")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@AllArgsConstructor
 @NoArgsConstructor
 public class Event extends BaseEntity {
+    public Event(UUID id, String title, Collection<Slot> slots, Collection<Model> relatedModels, Client client, String personInCharge, String mediaReleased, String periodReleased, String territoriesReleased, String workingHour, String overtimePerHour, String feeAsAgreed, String termOfPayment, String cancellationFee, String contractDetails, String note, TYPE type) {
+        this.id = id;
+        this.title = title;
+        this.slots = slots;
+        if(this.slots != null)this.slots.forEach(slot -> slot.setEvent(this));
+        this.relatedModels = relatedModels;
+        this.client = client;
+        this.personInCharge = personInCharge;
+        this.mediaReleased = mediaReleased;
+        this.periodReleased = periodReleased;
+        this.territoriesReleased = territoriesReleased;
+        this.workingHour = workingHour;
+        this.overtimePerHour = overtimePerHour;
+        this.feeAsAgreed = feeAsAgreed;
+        this.termOfPayment = termOfPayment;
+        this.cancellationFee = cancellationFee;
+        this.contractDetails = contractDetails;
+        this.note = note;
+        this.type = type;
+    }
 
+    public enum TYPE {
+        OPTION,
+        JOB,
+        REMINDER
+    }
     public interface JobInfo {}
     public interface OptionInfo {}
     public interface ReminderInfo {}
@@ -34,7 +56,7 @@ public class Event extends BaseEntity {
     @EqualsAndHashCode.Include private UUID id;
     @NotNull(groups = {JobInfo.class, OptionInfo.class, ReminderInfo.class}, message = "Title cannot be null.")
     protected String title;
-    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     protected Collection<Slot> slots;
     @ManyToMany
     @Valid
@@ -53,7 +75,7 @@ public class Event extends BaseEntity {
     private String cancellationFee;
     private String contractDetails;
     private String note;
-    private String type;
+    private TYPE type;
     public Event(String title, Collection<Slot> slots, Collection<Model> relatedModels){
         this.title = title;
         this.slots = slots;
@@ -115,18 +137,18 @@ public class Event extends BaseEntity {
         }
         if(slots != null){
             this.slots.addAll(slots);
-            this.slots.forEach(event -> event.setTask(this));
+            this.slots.forEach(event -> event.setEvent(this));
         }
     }
 
     public void addSlot(Slot slot){
-        slot.setTask(this);
+        slot.setEvent(this);
         this.slots.add(slot);
     }
 
     public void removeSlot(Slot slot){
         this.slots.remove(slot);
-        slot.setTask(null);
+        slot.setEvent(null);
     }
 
 }

@@ -18,12 +18,14 @@ public class SlotRequest {
     private UUID id;
     private Instant startTimestamp;
     private Instant endTimestamp;
+    private String type;
 
 
     public Slot toEntity(){
         return Slot.builder()
                 .startTimestamp(this.startTimestamp)
                 .endTimestamp(this.endTimestamp)
+                .type(this.type)
                 .id(this.id)
                 .build();
     }
