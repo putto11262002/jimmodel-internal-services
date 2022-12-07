@@ -8,19 +8,22 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@Builder
 @Entity
 @Table(name = "task")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 public class Event extends BaseEntity {
+
+    @Builder
     public Event(UUID id, String title, Collection<Slot> slots, Collection<Model> relatedModels, Client client, String personInCharge, String mediaReleased, String periodReleased, String territoriesReleased, String workingHour, String overtimePerHour, String feeAsAgreed, String termOfPayment, String cancellationFee, String contractDetails, String note, TYPE type) {
         this.id = id;
         this.title = title;
@@ -104,6 +107,28 @@ public class Event extends BaseEntity {
         this.id = id;
         this.title = title;
         this.slots = slots;
+    }
+
+    public static Event jobBuilder(UUID id, String title, Collection<Slot> slots, Collection<Model> relatedModels, Client client, String personInCharge, String mediaReleased, String periodReleased, String territoriesReleased, String workingHour, String overtimePerHour, String feeAsAgreed, String termOfPayment, String cancellationFee, String contractDetails, String note){
+        return Event.builder()
+                .id(id)
+                .title(title)
+                .slots(slots)
+                .client(client)
+                .personInCharge(personInCharge)
+                .mediaReleased(mediaReleased)
+                .periodReleased(periodReleased)
+                .territoriesReleased(territoriesReleased)
+                .workingHour(workingHour)
+                .overtimePerHour(overtimePerHour)
+                .feeAsAgreed(feeAsAgreed)
+                .termOfPayment(termOfPayment)
+                .cancellationFee(cancellationFee)
+                .contractDetails(contractDetails)
+                .relatedModels(relatedModels)
+                .note(note)
+                .type(TYPE.JOB)
+                .build();
     }
 
     public void toOption(){

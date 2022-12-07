@@ -35,7 +35,6 @@ public class JobServiceImp implements JobService{
 
     @Override
     public Event save(Event job) {
-        job.setType(Event.TYPE.JOB);
 
         Set<ConstraintViolation<BaseEntity>>  violations = validator.validate(job, Event.JobInfo.class);
         if (!violations.isEmpty()){

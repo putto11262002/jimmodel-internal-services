@@ -36,24 +36,24 @@ public class JobRequest {
     private Event.TYPE type;
 
 
-    public Event toEntity(){
-        return Event.builder()
-                .title(this.title)
-                .slots(this.getSlots() != null ? this.slots.stream().map(slotResponse -> slotResponse.toEntity()).collect(Collectors.toList()) : new ArrayList<>())
-                .client(this.getClient() != null ? this.client.toEntity(): null)
-                .personInCharge(this.personInCharge)
-                .mediaReleased(this.mediaReleased)
-                .periodReleased(this.periodReleased)
-                .territoriesReleased(this.territoriesReleased)
-                .workingHour(this.workingHour)
-                .overtimePerHour(this.overtimePerHour)
-                .feeAsAgreed(this.feeAsAgreed)
-                .termOfPayment(this.termOfPayment)
-                .cancellationFee(this.cancellationFee)
-                .contractDetails(this.contractDetails)
-                .relatedModels(this.relatedModels != null ? this.relatedModels.stream().map(modelRequest -> modelRequest.toEntity()).collect(Collectors.toList()) : null)
-                .note(this.note)
-                .type(this.type)
-                .build();
+    public Event toEntity() {
+        return Event.jobBuilder(
+                this.id,
+                this.title,
+                this.slots != null ? this.slots.stream().map(slotRequest -> slotRequest.toEntity()).collect(Collectors.toList()) : null,
+                this.relatedModels != null ? this.relatedModels.stream().map(modelRequest -> modelRequest.toEntity()).collect(Collectors.toList()) : null,
+                this.client != null ? this.client.toEntity() : null,
+                this.personInCharge,
+                this.mediaReleased,
+                this.periodReleased,
+                this.territoriesReleased,
+                this.workingHour,
+                this.overtimePerHour,
+                this.feeAsAgreed,
+                this.termOfPayment,
+                this.cancellationFee,
+                this.contractDetails,
+                this.note
+        );
     }
 }
