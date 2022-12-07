@@ -4,6 +4,9 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -20,9 +23,13 @@ public class ModelExperience extends BaseEntity {
     @GeneratedValue(generator = "uuid-generator")
     @GenericGenerator(name = "uuid-generator",strategy = "com.jimmodel.internalServices.config.UUIDGenerator")
     @EqualsAndHashCode.Include private UUID id;
+    @NotNull(message = "Experience year cannot be blank.")
     private Integer year;
+    @NotBlank(message = "Experience product cannot be blank.")
     private String product;
+    @NotBlank(message = "Experience country cannot be blank.")
     private String country;
+    @NotBlank(message = "Experience media cannot be blank.")
     private String media;
     private String details;
 

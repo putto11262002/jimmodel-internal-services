@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -54,6 +55,7 @@ public class Model  extends BaseEntity{
     private String taxId;
     private String occupation;
     private String education;
+    @Valid
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
@@ -73,6 +75,7 @@ public class Model  extends BaseEntity{
     )
     @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
     private Image profileImage;
+    @Valid
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<ModelExperience> experiences;
 //    @CreationTimestamp
