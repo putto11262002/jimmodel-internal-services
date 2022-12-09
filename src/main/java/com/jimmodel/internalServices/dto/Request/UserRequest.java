@@ -1,11 +1,14 @@
 package com.jimmodel.internalServices.dto.Request;
 
+import com.jimmodel.internalServices.model.ERole;
+import com.jimmodel.internalServices.model.Role;
 import com.jimmodel.internalServices.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -32,7 +35,7 @@ public class UserRequest {
                 .emailAddress(this.emailAddress)
                 .firstName(this.firstName)
                 .lastName(this.lastName)
-                .roles(this.roles != null ? this.roles.stream().map(roleRequest -> roleRequest.toEntity()).collect(Collectors.toSet()) : new HashSet<>())
+                .roles(this.roles != null ? this.roles.stream().map(roleRequest -> roleRequest.toEntity()).filter(role -> role.getName() != null).collect(Collectors.toSet()): new HashSet<>())
                 .build();
     }
 }

@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +26,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-
-    @PostMapping(value = "/sign-up")
+    @PostMapping
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest){
         User createdUser = this.userService.save(userRequest.toEntity());
         UserResponse responseBody = new UserResponse(createdUser);
@@ -53,8 +54,9 @@ public class UserController {
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
+    @PreAuthorize(value = "hasRole('ROOT') or hasRole('ADMIN')")
     @GetMapping
-    public ResponseEntity<UsersResponse> getUser(
+    public ResponseEntity<UsersResponse> getUsers(
             @RequestParam(required = false, defaultValue = "0", name = "pageNumber") Integer pageNumber,
             @RequestParam(required = false, defaultValue = "${data.page-size}", name = "pageSize") Integer pageSize,
             @RequestParam(required = false, defaultValue = "${data.user.sort-by}", name = "sortBy") String sortBy,

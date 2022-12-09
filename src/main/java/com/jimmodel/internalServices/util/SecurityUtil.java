@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-public class JwtUtil {
+public class SecurityUtil {
 
     @Value("${jwt.token-validity}")
     public long TOKEN_VALIDITY;

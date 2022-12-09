@@ -13,10 +13,8 @@ import lombok.Setter;
 public class RoleResponse {
 
     private String name;
-    private String description;
 
     public RoleResponse(Role role){
-        this.name = role.getName();
-        this.description = role.getDescription();
+        this.name = role.getName().name();
     }
 }

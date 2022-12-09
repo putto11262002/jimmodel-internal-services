@@ -6,6 +6,9 @@ server:
 
 api-version: v1
 
+root-user:
+  password: password
+
 file-storage:
   root-dir: "upload"
 jwt:

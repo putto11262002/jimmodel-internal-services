@@ -1,6 +1,6 @@
 package com.jimmodel.internalServices.config;
 
-import com.jimmodel.internalServices.util.JwtUtil;
+import com.jimmodel.internalServices.util.SecurityUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,7 +20,7 @@ public class BeanConfig {
     }
 
     @Bean
-    public JwtUtil jwtUtil(){
-        return new JwtUtil();
+    public SecurityUtil jwtUtil(){
+        return new SecurityUtil();
     }
 }

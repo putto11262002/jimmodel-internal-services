@@ -8,7 +8,5 @@ public class StorageUtil {
          return (file.getContentType().equals("image/png")
                 || file.getContentType().equals("image/jpg")
                 || file.getContentType().equals("image/jpeg"));
-
-
     }
 }

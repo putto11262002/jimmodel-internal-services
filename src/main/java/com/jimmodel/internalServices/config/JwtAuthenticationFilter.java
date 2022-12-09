@@ -2,7 +2,7 @@ package com.jimmodel.internalServices.config;
 
 import com.jimmodel.internalServices.exception.JwtException;
 import com.jimmodel.internalServices.service.UserService;
-import com.jimmodel.internalServices.util.JwtUtil;
+import com.jimmodel.internalServices.util.SecurityUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 
 import io.jsonwebtoken.SignatureException;
@@ -34,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private UserService userService;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private SecurityUtil securityUtil;
 
     @Autowired
     @Qualifier("handlerExceptionResolver")
@@ -55,12 +55,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String authToken = header.replace(TOKEN_PREFIX, "").trim();
         try{
-            String username = jwtUtil.getUsernameFromToken(authToken);
+            String username = securityUtil.getUsernameFromToken(authToken);
             UserDetails userDetails = userService.loadUserByUsername(username);
-            if (!jwtUtil.validate(authToken, userDetails)){
+            if (!securityUtil.validate(authToken, userDetails)){
                 chain.doFilter(req,res);
             }
-            UsernamePasswordAuthenticationToken authentication = jwtUtil.getAuthenticationToken(authToken, SecurityContextHolder.getContext().getAuthentication(), userDetails);
+            UsernamePasswordAuthenticationToken authentication = securityUtil.getAuthenticationToken(authToken, SecurityContextHolder.getContext().getAuthentication(), userDetails);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 

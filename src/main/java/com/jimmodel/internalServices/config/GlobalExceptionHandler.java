@@ -1,6 +1,7 @@
 package com.jimmodel.internalServices.config;
 
 import com.jimmodel.internalServices.dto.Response.ErrorResponse;
+import com.jimmodel.internalServices.exception.ConstraintViolationException;
 import com.jimmodel.internalServices.exception.JwtException;
 import com.jimmodel.internalServices.exception.ResourceNotFoundException;
 import com.jimmodel.internalServices.exception.ValidationException;
@@ -8,6 +9,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -92,12 +94,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
         return new ResponseEntity<>(responseBody, HttpStatus.UNAUTHORIZED);
     }
 
-
-
-
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorResponse> InsufficientAuthenticationException(HttpServletRequest request, Exception e){
 
+        ErrorResponse responseBody = ErrorResponse.builder()
+                .messages(List.of(e.getMessage()))
+                .errorMessageKey(HttpStatus.FORBIDDEN.getReasonPhrase())
+                .errorCode(HttpStatus.FORBIDDEN.value())
+                .timestamp(Instant.now())
+                .url(request.getRequestURI())
+                .method(request.getMethod())
+                .build();
+        return new ResponseEntity<>(responseBody, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> AccessDeniedException(HttpServletRequest request, Exception e){
         ErrorResponse responseBody = ErrorResponse.builder()
                 .messages(List.of(e.getMessage()))
                 .errorMessageKey(HttpStatus.UNAUTHORIZED.getReasonPhrase())
@@ -107,6 +119,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
                 .method(request.getMethod())
                 .build();
         return new ResponseEntity<>(responseBody, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> ConstraintViolationException(HttpServletRequest request, Exception e){
+        ErrorResponse responseBody = ErrorResponse.builder()
+                .messages(List.of(e.getMessage()))
+                .errorMessageKey(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .errorCode(HttpStatus.BAD_REQUEST.value())
+                .timestamp(Instant.now())
+                .url(request.getRequestURI())
+                .method(request.getMethod())
+                .build();
+        return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
 
 }
