@@ -1,5 +1,6 @@
 package com.jimmodel.internalServices.util;
 
+import com.jimmodel.internalServices.service.UserDetailsImp;
 import io.jsonwebtoken.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 public class SecurityUtil {
 
     @Value("${jwt.access-token-expiration-ms}")
-    public long REFRESH_TOKEN_EXPIRATION;
+    public long ACCESS_TOKEN_EXPIRATION;
 
     @Value("${jwt.access-token-secret}")
     public String ACCESS_TOKEN_SECRET;
@@ -29,31 +30,62 @@ public class SecurityUtil {
     @Value("${jwt.authorities-key}")
     public String AUTHORITIES_KEY;
 
-    public String getUsernameFromAccessToken(String authToken){
-        return Jwts.parser().setSigningKey(ACCESS_TOKEN_SECRET).parseClaimsJws(authToken).getBody().getSubject();
+    @Value("${jwt.refresh-token-expiration-ms}")
+    public long REFRESH_TOKEN_EXPIRATION;
+    @Value("${jwt.refresh-token-secret}")
+    public String REFRESH_TOKEN_SECRET;
+
+    private String getUsernameFromToken(String token, String secret){
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public Date getExpirationFromAccessToken(String authToken){
-        return Jwts.parser().setSigningKey(ACCESS_TOKEN_SECRET).parseClaimsJws(authToken).getBody().getExpiration();
+    private Date getExpirationFromToken(String token, String secret){
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getExpiration();
     }
 
 
-    public Boolean validateAccessToken(String token, UserDetails userDetails){
-        String username = getUsernameFromAccessToken(token);
-        return username.equals(userDetails.getUsername()) && !getExpirationFromAccessToken(token).before(new Date(System.currentTimeMillis()));
+    public String validateAccessToken(String token){
+        return getUsernameFromToken(token, ACCESS_TOKEN_SECRET);
     }
 
-    public Token generateAccessToken(Authentication authentication){
-        String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
-        Date expiration = new Date(Instant.now().toEpochMilli() + REFRESH_TOKEN_EXPIRATION);
+    public Token generateAccessToken(UserDetailsImp userDetails){
+        String authorities = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
+        Date expiration = new Date(Instant.now().toEpochMilli() + ACCESS_TOKEN_EXPIRATION);
         String token = Jwts.builder()
-                .setSubject(authentication.getName())
+                .setSubject(userDetails.getUsername())
                 .claim(AUTHORITIES_KEY, authorities)
                 .setIssuedAt(new Date())
                 .setExpiration(expiration)
                 .signWith(SignatureAlgorithm.HS256, ACCESS_TOKEN_SECRET).compact();
-        return new Token((UserDetails) authentication.getPrincipal(), token, expiration);
+        return new Token(userDetails, token, expiration);
 
+    }
+
+    public Token generateRefreshToken(UserDetailsImp userDetails){
+        String authorities = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
+        Date expiration = new Date(Instant.now().toEpochMilli() + REFRESH_TOKEN_EXPIRATION);
+        String token = Jwts.builder()
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(expiration)
+                .signWith(SignatureAlgorithm.HS256, REFRESH_TOKEN_SECRET).compact();
+        return new Token(userDetails, token, expiration);
+
+    }
+
+//    public Token generateRefreshToken(Authentication authentication){
+//        Date expiration = new Date(Instant.now().toEpochMilli() + REFRESH_TOKEN_EXPIRATION);
+//        String token = Jwts.builder()
+//                .setSubject(authentication.getName())
+//                .setIssuedAt(new Date())
+//                .setExpiration(expiration)
+//                .signWith(SignatureAlgorithm.HS256, ACCESS_TOKEN_SECRET).compact();
+//        return new Token((UserDetails) authentication.getPrincipal(), token, expiration);
+//
+//    }
+
+    public String validateRefreshToken(String token){
+        return getUsernameFromToken(token, REFRESH_TOKEN_SECRET);
     }
 
     public UsernamePasswordAuthenticationToken getAuthenticationToken(String token, Authentication authentication, UserDetails userDetails){
@@ -72,7 +104,7 @@ public class SecurityUtil {
     @Getter
     public class Token {
         private UserDetails username;
-        private String accessToken;
+        private String tokenString;
         private Date expiration;
     }
 

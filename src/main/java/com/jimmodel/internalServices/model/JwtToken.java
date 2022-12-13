@@ -15,5 +15,5 @@ public class JwtToken {
     private String refreshToken;
     private Date accessTokenExpiration;
     private Date refreshTokenExpiration;
-    private UUID userId;
+    private User user;
 }

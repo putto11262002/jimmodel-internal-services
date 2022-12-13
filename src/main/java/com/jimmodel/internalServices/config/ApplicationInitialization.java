@@ -11,10 +11,12 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Set;
 
 @Component
-public class DataLoader implements ApplicationRunner {
+public class ApplicationInitialization implements ApplicationRunner {
 
     @Autowired
     private RoleService roleService;
@@ -25,6 +27,9 @@ public class DataLoader implements ApplicationRunner {
     @Value("${root-user.password}")
     String rootUserPassword;
 
+    @Value("file-storage.root-dir")
+    String fileStoragePath;
+
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -34,5 +39,10 @@ public class DataLoader implements ApplicationRunner {
        }
         // save root user
         userService.save(User.builder().firstName("root").lastName("root").username("root").password(rootUserPassword).roles(Set.of(new Role(ERole.ROLE_ROOT))).build());
+
+       // file storage directory
+        Files.createDirectories(Path.of(this.fileStoragePath));
+
+
     }
 }

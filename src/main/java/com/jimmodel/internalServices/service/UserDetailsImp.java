@@ -22,6 +22,9 @@ public class UserDetailsImp implements UserDetails {
     @JsonIgnore
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
+    private String firstName;
+    private String lastName;
+    private String emailAddress;
 
 
     public static UserDetailsImp build(User user){
@@ -31,6 +34,9 @@ public class UserDetailsImp implements UserDetails {
                 .username(user.getUsername())
                 .password(user.getPassword())
                 .authorities(authorities)
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .emailAddress(user.getEmailAddress())
                 .build();
     }
 

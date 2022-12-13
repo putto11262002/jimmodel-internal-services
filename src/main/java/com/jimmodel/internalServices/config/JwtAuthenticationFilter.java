@@ -1,6 +1,8 @@
 package com.jimmodel.internalServices.config;
 
 import com.jimmodel.internalServices.exception.JwtException;
+import com.jimmodel.internalServices.service.BlackListUserService;
+import com.jimmodel.internalServices.service.UserDetailsImp;
 import com.jimmodel.internalServices.service.UserService;
 import com.jimmodel.internalServices.util.SecurityUtil;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -37,6 +39,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private SecurityUtil securityUtil;
 
     @Autowired
+    private BlackListUserService blackListUserService;
+
+    @Autowired
     @Qualifier("handlerExceptionResolver")
     private HandlerExceptionResolver resolver;
 
@@ -55,11 +60,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String authToken = header.replace(TOKEN_PREFIX, "").trim();
         try{
-            String username = securityUtil.getUsernameFromAccessToken(authToken);
-            UserDetails userDetails = userService.loadUserByUsername(username);
-            if (!securityUtil.validateAccessToken(authToken, userDetails)){
+            String username = securityUtil.validateAccessToken(authToken);
+            UserDetailsImp userDetails = (UserDetailsImp) userService.loadUserByUsername(username);
+            if (userDetails == null){
                 chain.doFilter(req,res);
+                return;
             }
+
+            if (blackListUserService.isBlackListed(userDetails.getId())){
+                System.out.println("ttt");
+                chain.doFilter(req,res);
+                return;
+            }
+
+
+
             UsernamePasswordAuthenticationToken authentication = securityUtil.getAuthenticationToken(authToken, SecurityContextHolder.getContext().getAuthentication(), userDetails);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
             SecurityContextHolder.getContext().setAuthentication(authentication);

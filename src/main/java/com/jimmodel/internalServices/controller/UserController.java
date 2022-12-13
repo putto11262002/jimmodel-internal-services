@@ -33,12 +33,6 @@ public class UserController {
         return new ResponseEntity<>(responseBody, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/sign-in")
-    public ResponseEntity<JwtTokenResponse> signIn(@RequestBody SignInRequest signInRequest){
-        JwtToken token = this.userService.signIn(signInRequest.getUsername(), signInRequest.getPassword());
-        JwtTokenResponse responseBody = new JwtTokenResponse(token);
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
-    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable(value = "id") UUID id){

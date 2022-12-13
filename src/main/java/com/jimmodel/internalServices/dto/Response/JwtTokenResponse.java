@@ -17,10 +17,12 @@ public class JwtTokenResponse {
     private UUID userId;
     private String accessToken;
     private Date accessTokenExpiration;
+    private String refreshToken;
 
     public JwtTokenResponse(JwtToken jwtToken){
+        this.userId = jwtToken.getUser().getId();
         this.accessToken = jwtToken.getAccessToken();
         this.accessTokenExpiration = jwtToken.getAccessTokenExpiration();
-        this.userId = jwtToken.getUserId();
+        this.refreshToken = jwtToken.getRefreshToken();
     }
 }

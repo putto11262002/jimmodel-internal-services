@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,19 +39,15 @@ public class UserServiceImp implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired
     Validator validator;
 
-    @Autowired
-    AuthenticationManager authenticationManager;
 
     @Autowired
     SecurityUtil securityUtil;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -87,6 +84,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User saveById(UUID id, User updatedUpdate) {
+        if(SecurityContextHolder.getContext().getAuthentication() == null) return null;
         UserDetailsImp userDetails = (UserDetailsImp) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(userDetails.getId() != id || !SecurityContextHolder.getContext().getAuthentication().getAuthorities().containsAll(List.of( new SimpleGrantedAuthority("ROLE_root")))){
             throw new AccessDeniedException("Forbidden operation.");
@@ -106,6 +104,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void changeUsername(UUID id, String newUsername) {
+        if(SecurityContextHolder.getContext().getAuthentication() == null) return;
         UserDetailsImp userDetails = (UserDetailsImp) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(userDetails.getId() != id || !SecurityContextHolder.getContext().getAuthentication().getAuthorities().containsAll(List.of(new SimpleGrantedAuthority(ERole.ROLE_ROOT.name())))){
             throw new AccessDeniedException("Forbidden operation.");
@@ -120,6 +119,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void changePassword(UUID id, String newPassword) {
+        if(SecurityContextHolder.getContext().getAuthentication() == null) return;
         UserDetailsImp userDetails = (UserDetailsImp) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(userDetails.getId() != id || !SecurityContextHolder.getContext().getAuthentication().getAuthorities().containsAll(List.of(new SimpleGrantedAuthority(ERole.ROLE_ROOT.name())))){
             throw new AccessDeniedException("Forbidden operation.");
@@ -158,18 +158,6 @@ public class UserServiceImp implements UserService {
         userRepository.deleteById(id);
     }
 
-    @Override
-    public JwtToken signIn(String username, String password) throws AuthenticationException {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        SecurityUtil.Token token = securityUtil.generateAccessToken(authentication);
-        UserDetailsImp userDetails = (UserDetailsImp) authentication.getPrincipal();
-        return JwtToken.builder()
-                .accessToken(token.getAccessToken())
-                .accessTokenExpiration(token.getExpiration())
-                .userId(userDetails.getId())
-                .build();
-    }
 
     @Override
     public Page<User> search(String searchTerm, Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
