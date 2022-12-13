@@ -5,6 +5,7 @@ import com.jimmodel.internalServices.model.Slot;
 import lombok.Data;
 import org.springframework.scheduling.config.Task;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
@@ -16,10 +17,10 @@ public class MonthlyCalendarResponse {
     private String month;
 
 
-    public MonthlyCalendarResponse(Map<String, Collection<Slot>> calendar, String month){
+    public MonthlyCalendarResponse(Map<LocalDate, Collection<Slot>> calendar, String month){
         calendar.forEach((date, slots) -> {
             Collection<SlotResponse> slotsResponse = slots.stream().map(slot -> new SlotResponse(slot)).collect(Collectors.toList());
-            this.calendar.put(date, slotsResponse);
+            this.calendar.put(date.toString(), slotsResponse);
         });
         this.month = month;
     }

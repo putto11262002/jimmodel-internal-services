@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -15,15 +18,15 @@ import java.util.UUID;
 @Setter
 public class SlotResponse {
     private UUID id;
-    private Instant startTimestamp;
-    private Instant endTimestamp;
+    private ZonedDateTime startTimestamp;
+    private ZonedDateTime endTimestamp;
     private SlotTaskResponse event;
     private String type;
 
     public SlotResponse(Slot slot){
         this.id = slot.getId();
-        this.startTimestamp = slot.getStartTimestamp();
-        this.endTimestamp = slot.getEndTimestamp();
+        this.startTimestamp = ZonedDateTime.of(slot.getStartTimestamp(), ZoneOffset.UTC);
+        this.endTimestamp = ZonedDateTime.of(slot.getEndTimestamp(), ZoneOffset.UTC);
         this.type = slot.getType();
 //        System.out.println(event.getTask());
         this.event = slot.getEvent() != null ? new SlotTaskResponse(slot.getEvent()) : null;

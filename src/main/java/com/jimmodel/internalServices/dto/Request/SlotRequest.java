@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -16,15 +18,15 @@ import java.util.UUID;
 public class SlotRequest {
 
     private UUID id;
-    private Instant startTimestamp;
-    private Instant endTimestamp;
+    private ZonedDateTime startTimestamp;
+    private ZonedDateTime endTimestamp;
     private String type;
 
 
     public Slot toEntity(){
         return Slot.builder()
-                .startTimestamp(this.startTimestamp)
-                .endTimestamp(this.endTimestamp)
+                .startTimestamp(this.startTimestamp.withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime())
+                .endTimestamp(this.endTimestamp.withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime())
                 .type(this.type)
                 .id(this.id)
                 .build();

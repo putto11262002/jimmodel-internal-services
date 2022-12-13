@@ -5,14 +5,13 @@ import com.jimmodel.internalServices.model.*;
 import com.jimmodel.internalServices.exception.ResourceNotFoundException;
 import com.jimmodel.internalServices.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -29,6 +28,9 @@ public class JobServiceImp implements JobService{
 
     @Autowired
     private ModelRepository modelRepository;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     @Autowired
     Validator validator;
@@ -63,7 +65,11 @@ public class JobServiceImp implements JobService{
         job.setRelatedModels(relatedModels);
         job.setClient(client);
 
-        return eventRepository.save(job);
+
+
+        Event savedJob = eventRepository.save(job);
+        eventPublisher.publishEvent(new EventSavedEvent(savedJob));
+        return savedJob;
     }
 
     @Override

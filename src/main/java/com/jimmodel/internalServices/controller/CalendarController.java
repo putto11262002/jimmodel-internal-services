@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 
@@ -24,7 +26,7 @@ public class CalendarController {
 
     @GetMapping(value = "/monthly/{year}/{month}")
     public ResponseEntity<MonthlyCalendarResponse> getMonthlyCalendar(@PathVariable(value = "year") Integer year, @PathVariable(value = "month") Integer month){
-        Map<String, Collection<Slot>> calendar =  calendarService.getMonthCalendar(month - 1, year);
+        Map<LocalDate, Collection<Slot>> calendar =  calendarService.getMonthlyCalendar(month, year);
         MonthlyCalendarResponse responseBody = new MonthlyCalendarResponse(calendar, String.format("%s-%s", year, month));
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }

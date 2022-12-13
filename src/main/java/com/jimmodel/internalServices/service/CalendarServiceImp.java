@@ -1,15 +1,15 @@
 package com.jimmodel.internalServices.service;
 
-import com.jimmodel.internalServices.model.Event;
+import com.jimmodel.internalServices.model.EventSavedEvent;
+import com.jimmodel.internalServices.model.Month;
 import com.jimmodel.internalServices.model.Slot;
-import com.jimmodel.internalServices.repository.EventRepository;
 import com.jimmodel.internalServices.repository.SlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.util.*;
 
 @Service(value = "calendarService")
@@ -18,38 +18,43 @@ public class CalendarServiceImp implements CalendarService{
     @Autowired
     private SlotRepository slotRepository;
 
+    private  Map<Month, Map<LocalDate, Collection<Slot>>> monthlyCalendars = new HashMap<>();
 
-    private static  Map<String, Map<String, Collection<Slot>>> monthlyCalendars = new HashMap<>();
+    @EventListener
+    private void onEventSaved(EventSavedEvent event){
+        clearCache();
 
-    public void buildMonthlyCalendar(Integer month, Integer year){
-        Map<String, Collection<Slot>> cal = new TreeMap<>();
-        java.util.Calendar c = java.util.Calendar.getInstance();
-        c.set(year, month, 1, 0, 0, 0);
-        c.setTimeZone(TimeZone.getTimeZone(ZoneId.of("UTC")));
-//        c.set(java.util.Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek());
+    }
+
+    public Map<LocalDate, Collection<Slot>> getMonthlyCalendar(Integer month, Integer year){
+        Month targetMonth = new Month(year, month);
+        if(this.monthlyCalendars.containsKey(targetMonth)){
+            return this.monthlyCalendars.get(targetMonth);
+        }
+        buildMonthlyCalendar(targetMonth);
+        return this.monthlyCalendars.get(targetMonth);
+    }
+
+    @Scheduled(fixedRate = 3600000)
+    private void clearCache(){
+        this.monthlyCalendars.clear();
+    }
+    public void buildMonthlyCalendar(Month month){
+        Map<LocalDate, Collection<Slot>> cal = new TreeMap<>();
+        LocalDateTime ldt = LocalDateTime.of(month.getYear(), month.getMonth(), 1, 0, 0, 0);
         while (true){
-            c.add(Calendar.DATE, -1);
-            if(c.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) break;
+            ldt= ldt.minusDays(1);
+            if(ldt.getDayOfWeek().equals(DayOfWeek.MONDAY)) break;
         }
-
         while(true){
-            System.out.println(LocalDateTime.ofInstant(c.toInstant(), ZoneOffset.UTC));
-            Collection<Slot> calendarEvent = slotRepository.findAllSlotByDate(c.toInstant());
-            cal.put(String.format("%s-%s-%s",  c.get(Calendar.YEAR), c.get(Calendar.MONTH),  c.get(Calendar.DATE)), calendarEvent);
-            if(c.get(java.util.Calendar.MONTH) != java.util.Calendar.DECEMBER & c.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.SUNDAY) break;
-            c.add(java.util.Calendar.DATE, 1);
+            Collection<Slot> slots = slotRepository.findAllSlotByDate(ldt);
+            cal.put(ldt.toLocalDate(), slots);
+            ldt = ldt.plusDays(1);
+            if(ldt.getMonthValue() != month.getMonth() & ldt.getDayOfWeek().equals(DayOfWeek.MONDAY)) break;
+
         }
-        CalendarServiceImp.monthlyCalendars.put(String.format("%s-%s", year, month), cal);
+        this.monthlyCalendars.put(month, cal);
     }
 
-    @Override
-    public Map<String, Collection<Slot>> getMonthCalendar(Integer month, Integer year) {
-        this.buildMonthlyCalendar(Calendar.DECEMBER, 2022);
-        return CalendarServiceImp.monthlyCalendars.get(String.format("%s-%s", 2022, Calendar.DECEMBER));
-    }
 
-    @Override
-    public Map<String, Collection<Slot>> getWeekCalendar(Integer week, Integer year) {
-        return null;
-    }
 }

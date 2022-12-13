@@ -11,7 +11,7 @@ public class SlotTaskResponse {
     private String title;
 
     public SlotTaskResponse(Event task){
-        System.out.println(task);
+//        System.out.println(task);
         this.id = task.getId();
         this.title = task.getTitle();
     }

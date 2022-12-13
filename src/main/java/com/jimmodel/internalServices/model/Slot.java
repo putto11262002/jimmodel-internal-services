@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Setter
@@ -21,8 +22,8 @@ public class Slot extends BaseEntity {
     @GeneratedValue(generator = "uuid-generator")
     @GenericGenerator(name = "uuid-generator",strategy = "com.jimmodel.internalServices.config.UUIDGenerator")
     @EqualsAndHashCode.Include private UUID id;
-    private Instant startTimestamp;
-    private Instant endTimestamp;
+    private LocalDateTime startTimestamp;
+    private LocalDateTime endTimestamp;
     private String type;
     @ManyToOne(cascade = CascadeType.ALL)
     private Event event;
