@@ -11,5 +11,4 @@ public interface StorageService {
 
     public void delete(String filePath) ;
 
-    public void init();
 }

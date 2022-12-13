@@ -21,24 +21,6 @@ public class StorageServiceImpl implements StorageService{
 
     @Value(value = "${file-storage.root-dir}")
     private Path ROOT_PATH;
-    @Override
-    public void init() {
-                try{
-                    Files.createDirectories(this.ROOT_PATH);
-                }catch (IOException exception){
-                    throw new StorageWriteException("Could not initialise storage directories");
-                }
-    }
-
-//    @Override
-//    public Path saveImage(String resourceType, Long resourceId, String fileName, MultipartFile file){
-//        if (!(file.getContentType().equals("image/png")
-//                || file.getContentType().equals("image/jpg")
-//                || file.getContentType().equals("image/jpeg"))){
-//            throw new InvalidFileTypeException("Invalid file type");
-//        }
-//        return this.save(resourceType, resourceId, fileName, file);
-//    }
 
     @Override
     public void save(String dirName, String fileName, MultipartFile file)  {
