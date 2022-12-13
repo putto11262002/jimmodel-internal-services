@@ -3,6 +3,7 @@ package com.jimmodel.internalServices.service;
 import com.jimmodel.internalServices.model.JwtToken;
 import com.jimmodel.internalServices.model.Role;
 import com.jimmodel.internalServices.model.User;
+import com.jimmodel.internalServices.util.SecurityUtil;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 

@@ -11,9 +11,12 @@ root-user:
 
 file-storage:
   root-dir: "upload"
+
 jwt:
-  token-validity: 18000
-  signing-key: signingkey
+  access-token-expiration-ms: 3600000
+  refresh-token-expiration-ms: 86400000
+  access-token-secret: signingkey
+  refresh-token-secret: singingkey
   authorities-key: roles
   token-prefix: Bearer
   header-string : Authorization

@@ -8,11 +8,11 @@ import com.jimmodel.internalServices.dto.Response.UsersResponse;
 import com.jimmodel.internalServices.model.JwtToken;
 import com.jimmodel.internalServices.model.User;
 import com.jimmodel.internalServices.service.UserService;
+import com.jimmodel.internalServices.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +35,8 @@ public class UserController {
 
     @PostMapping(value = "/sign-in")
     public ResponseEntity<JwtTokenResponse> signIn(@RequestBody SignInRequest signInRequest){
-        JwtToken jwtToken = this.userService.signIn(signInRequest.getUsername(), signInRequest.getPassword());
-        JwtTokenResponse responseBody = new JwtTokenResponse(jwtToken);
+        JwtToken token = this.userService.signIn(signInRequest.getUsername(), signInRequest.getPassword());
+        JwtTokenResponse responseBody = new JwtTokenResponse(token);
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 

@@ -162,9 +162,13 @@ public class UserServiceImp implements UserService {
     public JwtToken signIn(String username, String password) throws AuthenticationException {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println(authentication.getName());
-        JwtToken jwtToken = securityUtil.generateToken(authentication);
-        return jwtToken;
+        SecurityUtil.Token token = securityUtil.generateAccessToken(authentication);
+        UserDetailsImp userDetails = (UserDetailsImp) authentication.getPrincipal();
+        return JwtToken.builder()
+                .accessToken(token.getAccessToken())
+                .accessTokenExpiration(token.getExpiration())
+                .userId(userDetails.getId())
+                .build();
     }
 
     @Override

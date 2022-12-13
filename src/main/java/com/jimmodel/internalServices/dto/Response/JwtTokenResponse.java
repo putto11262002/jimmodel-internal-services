@@ -14,13 +14,13 @@ import java.util.UUID;
 @Setter
 @Getter
 public class JwtTokenResponse {
-    private String username;
+    private UUID userId;
     private String accessToken;
-    private Date expiration;
+    private Date accessTokenExpiration;
 
     public JwtTokenResponse(JwtToken jwtToken){
-        this.username = jwtToken.getUsername();
         this.accessToken = jwtToken.getAccessToken();
-        this.expiration = jwtToken.getExpiration();
+        this.accessTokenExpiration = jwtToken.getAccessTokenExpiration();
+        this.userId = jwtToken.getUserId();
     }
 }
