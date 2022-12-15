@@ -1,13 +1,11 @@
 package com.jimmodel.internalServices.dto.Response;
 
-import com.jimmodel.internalServices.model.Slot;
+import com.jimmodel.internalServices.domain.Slot;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.Instant;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.UUID;

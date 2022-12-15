@@ -1,12 +1,11 @@
 package com.jimmodel.internalServices.dto.Request;
 
-import com.jimmodel.internalServices.model.Event;
+import com.jimmodel.internalServices.domain.Event;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import java.util.stream.Collectors;

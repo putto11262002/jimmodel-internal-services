@@ -1,9 +1,7 @@
-package com.jimmodel.internalServices.model;
+package com.jimmodel.internalServices.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Calendar;
 
 @Getter
 @Setter

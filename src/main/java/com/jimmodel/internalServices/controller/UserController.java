@@ -1,14 +1,10 @@
 package com.jimmodel.internalServices.controller;
 
-import com.jimmodel.internalServices.dto.Request.SignInRequest;
 import com.jimmodel.internalServices.dto.Request.UserRequest;
-import com.jimmodel.internalServices.dto.Response.JwtTokenResponse;
 import com.jimmodel.internalServices.dto.Response.UserResponse;
 import com.jimmodel.internalServices.dto.Response.UsersResponse;
-import com.jimmodel.internalServices.model.JwtToken;
-import com.jimmodel.internalServices.model.User;
+import com.jimmodel.internalServices.domain.User;
 import com.jimmodel.internalServices.service.UserService;
-import com.jimmodel.internalServices.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

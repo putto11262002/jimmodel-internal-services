@@ -1,6 +1,6 @@
 package com.jimmodel.internalServices.repository;
 
-import com.jimmodel.internalServices.model.Address;
+import com.jimmodel.internalServices.domain.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

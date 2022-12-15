@@ -1,7 +1,7 @@
 package com.jimmodel.internalServices.controller;
 
-import com.jimmodel.internalServices.model.Model;
-import com.jimmodel.internalServices.model.Image;
+import com.jimmodel.internalServices.domain.Model;
+import com.jimmodel.internalServices.domain.Image;
 import com.jimmodel.internalServices.dto.Request.ModelRequest;
 import com.jimmodel.internalServices.dto.Response.ImageResponse;
 import com.jimmodel.internalServices.dto.Response.ModelResponse;

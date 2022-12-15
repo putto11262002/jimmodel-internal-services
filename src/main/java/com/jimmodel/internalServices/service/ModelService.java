@@ -1,7 +1,7 @@
 package com.jimmodel.internalServices.service;
 
-import com.jimmodel.internalServices.model.Model;
-import com.jimmodel.internalServices.model.Image;
+import com.jimmodel.internalServices.domain.Model;
+import com.jimmodel.internalServices.domain.Image;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,8 +1,7 @@
-package com.jimmodel.internalServices.model;
+package com.jimmodel.internalServices.domain;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.Valid;

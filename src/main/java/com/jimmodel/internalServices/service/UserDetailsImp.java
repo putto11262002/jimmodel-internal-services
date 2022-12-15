@@ -1,7 +1,7 @@
 package com.jimmodel.internalServices.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jimmodel.internalServices.model.User;
+import com.jimmodel.internalServices.domain.User;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

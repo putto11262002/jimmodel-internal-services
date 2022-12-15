@@ -1,6 +1,6 @@
 package com.jimmodel.internalServices.dto.Response;
 
-import com.jimmodel.internalServices.model.Role;
+import com.jimmodel.internalServices.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

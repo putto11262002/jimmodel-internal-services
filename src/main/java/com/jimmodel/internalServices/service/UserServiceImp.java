@@ -1,10 +1,9 @@
 package com.jimmodel.internalServices.service;
 
 import com.jimmodel.internalServices.exception.ConstraintViolationException;
-import com.jimmodel.internalServices.model.*;
+import com.jimmodel.internalServices.domain.*;
 import com.jimmodel.internalServices.exception.ResourceNotFoundException;
 import com.jimmodel.internalServices.exception.ValidationException;
-import com.jimmodel.internalServices.repository.RoleRepository;
 import com.jimmodel.internalServices.repository.UserRepository;
 import com.jimmodel.internalServices.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,6 +1,6 @@
 package com.jimmodel.internalServices.service;
 
-import com.jimmodel.internalServices.model.Client;
+import com.jimmodel.internalServices.domain.Client;
 
 import java.util.UUID;
 

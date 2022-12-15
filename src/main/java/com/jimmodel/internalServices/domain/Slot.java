@@ -1,28 +1,30 @@
-package com.jimmodel.internalServices.model;
+package com.jimmodel.internalServices.domain;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.http.MediaType;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Getter
 @Setter
-@Builder
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "image")
-@ToString
-public class Image extends BaseEntity {
+@Table(name = "slot")
+@Builder
+public class Slot extends BaseEntity {
 
     @Id
     @GeneratedValue(generator = "uuid-generator")
     @GenericGenerator(name = "uuid-generator",strategy = "com.jimmodel.internalServices.config.UUIDGenerator")
     @EqualsAndHashCode.Include private UUID id;
-    private String fileName;
-    private MediaType type;
+    private LocalDateTime startTimestamp;
+    private LocalDateTime endTimestamp;
+    private String type;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Event event;
 
 }

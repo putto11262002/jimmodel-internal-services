@@ -1,4 +1,4 @@
-package com.jimmodel.internalServices.model;
+package com.jimmodel.internalServices.domain;
 
 public enum ERole {
     ROLE_USER,

@@ -1,9 +1,8 @@
-package com.jimmodel.internalServices.model;
+package com.jimmodel.internalServices.domain;
 
 import lombok.*;
 
 import java.util.Date;
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor

@@ -3,7 +3,7 @@ package com.jimmodel.internalServices.controller;
 import com.jimmodel.internalServices.dto.Request.JobRequest;
 import com.jimmodel.internalServices.dto.Response.JobResponse;
 import com.jimmodel.internalServices.dto.Response.JobsResponse;
-import com.jimmodel.internalServices.model.Event;
+import com.jimmodel.internalServices.domain.Event;
 import com.jimmodel.internalServices.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

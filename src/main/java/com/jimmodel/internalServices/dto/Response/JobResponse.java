@@ -1,6 +1,6 @@
 package com.jimmodel.internalServices.dto.Response;
 
-import com.jimmodel.internalServices.model.Event;
+import com.jimmodel.internalServices.domain.Event;
 import lombok.*;
 
 import java.util.ArrayList;

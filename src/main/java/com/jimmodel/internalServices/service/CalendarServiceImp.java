@@ -1,8 +1,8 @@
 package com.jimmodel.internalServices.service;
 
-import com.jimmodel.internalServices.model.EventSavedEvent;
-import com.jimmodel.internalServices.model.Month;
-import com.jimmodel.internalServices.model.Slot;
+import com.jimmodel.internalServices.domain.EventSavedEvent;
+import com.jimmodel.internalServices.domain.Month;
+import com.jimmodel.internalServices.domain.Slot;
 import com.jimmodel.internalServices.repository.SlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;

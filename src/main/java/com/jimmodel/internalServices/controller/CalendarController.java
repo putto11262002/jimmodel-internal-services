@@ -1,8 +1,7 @@
 package com.jimmodel.internalServices.controller;
 
 import com.jimmodel.internalServices.dto.Response.MonthlyCalendarResponse;
-import com.jimmodel.internalServices.model.Event;
-import com.jimmodel.internalServices.model.Slot;
+import com.jimmodel.internalServices.domain.Slot;
 import com.jimmodel.internalServices.service.CalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 

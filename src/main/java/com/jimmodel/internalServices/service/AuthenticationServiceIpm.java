@@ -1,7 +1,7 @@
 package com.jimmodel.internalServices.service;
 
-import com.jimmodel.internalServices.model.JwtToken;
-import com.jimmodel.internalServices.model.User;
+import com.jimmodel.internalServices.domain.JwtToken;
+import com.jimmodel.internalServices.domain.User;
 import com.jimmodel.internalServices.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,7 +9,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;

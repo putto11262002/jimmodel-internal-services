@@ -3,7 +3,7 @@ package com.jimmodel.internalServices.controller;
 import com.jimmodel.internalServices.dto.Request.ReminderRequest;
 import com.jimmodel.internalServices.dto.Response.ReminderResponse;
 import com.jimmodel.internalServices.dto.Response.RemindersResponse;
-import com.jimmodel.internalServices.model.Event;
+import com.jimmodel.internalServices.domain.Event;
 import com.jimmodel.internalServices.service.ReminderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -1,4 +1,4 @@
-package com.jimmodel.internalServices.model;
+package com.jimmodel.internalServices.domain;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;

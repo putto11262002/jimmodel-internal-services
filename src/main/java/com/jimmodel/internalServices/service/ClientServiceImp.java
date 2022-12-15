@@ -2,8 +2,8 @@ package com.jimmodel.internalServices.service;
 
 import com.jimmodel.internalServices.exception.ResourceNotFoundException;
 import com.jimmodel.internalServices.exception.ValidationException;
-import com.jimmodel.internalServices.model.BaseEntity;
-import com.jimmodel.internalServices.model.Client;
+import com.jimmodel.internalServices.domain.BaseEntity;
+import com.jimmodel.internalServices.domain.Client;
 import com.jimmodel.internalServices.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;

@@ -2,8 +2,8 @@ package com.jimmodel.internalServices.service;
 
 import com.jimmodel.internalServices.exception.ConstraintViolationException;
 import com.jimmodel.internalServices.exception.ResourceNotFoundException;
-import com.jimmodel.internalServices.model.ERole;
-import com.jimmodel.internalServices.model.Role;
+import com.jimmodel.internalServices.domain.ERole;
+import com.jimmodel.internalServices.domain.Role;
 import com.jimmodel.internalServices.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

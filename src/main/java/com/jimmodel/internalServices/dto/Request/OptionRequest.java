@@ -1,6 +1,6 @@
 package com.jimmodel.internalServices.dto.Request;
 
-import com.jimmodel.internalServices.model.Event;
+import com.jimmodel.internalServices.domain.Event;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

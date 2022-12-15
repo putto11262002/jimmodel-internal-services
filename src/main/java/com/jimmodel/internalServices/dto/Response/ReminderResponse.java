@@ -1,8 +1,7 @@
 package com.jimmodel.internalServices.dto.Response;
 
-import com.jimmodel.internalServices.model.Event;
+import com.jimmodel.internalServices.domain.Event;
 import lombok.Data;
-import org.springframework.scheduling.config.Task;
 
 import java.util.ArrayList;
 import java.util.Collection;

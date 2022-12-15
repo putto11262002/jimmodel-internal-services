@@ -1,6 +1,6 @@
 package com.jimmodel.internalServices.service;
 
-import com.jimmodel.internalServices.model.Event;
+import com.jimmodel.internalServices.domain.Event;
 
 import java.util.UUID;
 

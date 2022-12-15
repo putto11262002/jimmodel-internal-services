@@ -3,7 +3,7 @@ package com.jimmodel.internalServices.controller;
 import com.jimmodel.internalServices.dto.Request.RefreshRequest;
 import com.jimmodel.internalServices.dto.Request.SignInRequest;
 import com.jimmodel.internalServices.dto.Response.JwtTokenResponse;
-import com.jimmodel.internalServices.model.JwtToken;
+import com.jimmodel.internalServices.domain.JwtToken;
 import com.jimmodel.internalServices.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

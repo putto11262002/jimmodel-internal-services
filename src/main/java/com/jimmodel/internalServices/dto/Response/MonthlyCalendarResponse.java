@@ -1,9 +1,7 @@
 package com.jimmodel.internalServices.dto.Response;
 
-import com.jimmodel.internalServices.model.Event;
-import com.jimmodel.internalServices.model.Slot;
+import com.jimmodel.internalServices.domain.Slot;
 import lombok.Data;
-import org.springframework.scheduling.config.Task;
 
 import java.time.LocalDate;
 import java.util.Collection;

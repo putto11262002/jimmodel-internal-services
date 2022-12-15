@@ -1,13 +1,8 @@
 package com.jimmodel.internalServices.dto.Response;
 
-import com.jimmodel.internalServices.model.Address;
-import com.jimmodel.internalServices.model.Client;
+import com.jimmodel.internalServices.domain.Client;
 import lombok.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import java.util.UUID;
 
 @AllArgsConstructor

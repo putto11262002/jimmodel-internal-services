@@ -1,19 +1,16 @@
-package com.jimmodel.internalServices.model;
+package com.jimmodel.internalServices.domain;
 
 
 import lombok.*;
-import org.h2.engine.Mode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter

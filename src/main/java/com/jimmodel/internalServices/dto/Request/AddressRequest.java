@@ -1,9 +1,7 @@
 package com.jimmodel.internalServices.dto.Request;
 
-import com.jimmodel.internalServices.model.Address;
+import com.jimmodel.internalServices.domain.Address;
 import lombok.Data;
-
-import java.util.UUID;
 
 @Data
 public class AddressRequest {

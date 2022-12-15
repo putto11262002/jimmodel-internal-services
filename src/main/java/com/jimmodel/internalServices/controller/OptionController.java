@@ -4,7 +4,7 @@ import com.jimmodel.internalServices.dto.Request.OptionRequest;
 import com.jimmodel.internalServices.dto.Response.JobResponse;
 import com.jimmodel.internalServices.dto.Response.OptionResponse;
 import com.jimmodel.internalServices.dto.Response.OptionsResponse;
-import com.jimmodel.internalServices.model.Event;
+import com.jimmodel.internalServices.domain.Event;
 import com.jimmodel.internalServices.service.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

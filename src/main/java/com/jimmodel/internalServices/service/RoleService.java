@@ -1,8 +1,8 @@
 package com.jimmodel.internalServices.service;
 
 
-import com.jimmodel.internalServices.model.ERole;
-import com.jimmodel.internalServices.model.Role;
+import com.jimmodel.internalServices.domain.ERole;
+import com.jimmodel.internalServices.domain.Role;
 
 public interface RoleService {
     Role findByName(ERole name);

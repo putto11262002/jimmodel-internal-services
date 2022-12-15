@@ -1,8 +1,6 @@
 package com.jimmodel.internalServices.service;
 
-import com.jimmodel.internalServices.model.JwtToken;
-
-import java.util.UUID;
+import com.jimmodel.internalServices.domain.JwtToken;
 
 public interface AuthenticationService {
 

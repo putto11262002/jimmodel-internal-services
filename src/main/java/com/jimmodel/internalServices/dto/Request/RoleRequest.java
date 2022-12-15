@@ -1,7 +1,7 @@
 package com.jimmodel.internalServices.dto.Request;
 
-import com.jimmodel.internalServices.model.ERole;
-import com.jimmodel.internalServices.model.Role;
+import com.jimmodel.internalServices.domain.ERole;
+import com.jimmodel.internalServices.domain.Role;
 import lombok.*;
 
 @AllArgsConstructor

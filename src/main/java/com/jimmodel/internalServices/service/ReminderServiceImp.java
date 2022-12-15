@@ -2,9 +2,9 @@ package com.jimmodel.internalServices.service;
 
 import com.jimmodel.internalServices.exception.ResourceNotFoundException;
 import com.jimmodel.internalServices.exception.ValidationException;
-import com.jimmodel.internalServices.model.BaseEntity;
-import com.jimmodel.internalServices.model.Event;
-import com.jimmodel.internalServices.model.Model;
+import com.jimmodel.internalServices.domain.BaseEntity;
+import com.jimmodel.internalServices.domain.Event;
+import com.jimmodel.internalServices.domain.Model;
 import com.jimmodel.internalServices.repository.EventRepository;
 import com.jimmodel.internalServices.repository.ModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;

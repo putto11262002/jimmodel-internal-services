@@ -1,14 +1,11 @@
 package com.jimmodel.internalServices.dto.Request;
 
-import com.jimmodel.internalServices.model.ERole;
-import com.jimmodel.internalServices.model.Role;
-import com.jimmodel.internalServices.model.User;
+import com.jimmodel.internalServices.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;

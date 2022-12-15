@@ -3,7 +3,7 @@ package com.jimmodel.internalServices.controller;
 import com.jimmodel.internalServices.dto.Request.ClientRequest;
 import com.jimmodel.internalServices.dto.Response.ClientResponse;
 import com.jimmodel.internalServices.dto.Response.ClientsResponse;
-import com.jimmodel.internalServices.model.Client;
+import com.jimmodel.internalServices.domain.Client;
 import com.jimmodel.internalServices.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -1,7 +1,7 @@
 package com.jimmodel.internalServices.dto.Request;
 
 
-import com.jimmodel.internalServices.model.Model;
+import com.jimmodel.internalServices.domain.Model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

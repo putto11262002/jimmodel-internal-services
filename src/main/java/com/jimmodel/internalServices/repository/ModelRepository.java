@@ -1,6 +1,6 @@
 package com.jimmodel.internalServices.repository;
 
-import com.jimmodel.internalServices.model.Model;
+import com.jimmodel.internalServices.domain.Model;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

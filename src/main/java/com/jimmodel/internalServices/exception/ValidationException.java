@@ -1,12 +1,9 @@
 package com.jimmodel.internalServices.exception;
 
-import com.jimmodel.internalServices.model.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.ConstraintViolation;
 import java.util.Collection;
-import java.util.Set;
 
 @Getter
 @Setter

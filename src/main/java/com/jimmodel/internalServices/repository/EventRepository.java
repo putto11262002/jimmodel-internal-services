@@ -1,7 +1,6 @@
 package com.jimmodel.internalServices.repository;
 
-import com.jimmodel.internalServices.model.Event;
-import org.hibernate.validator.constraints.ru.INN;
+import com.jimmodel.internalServices.domain.Event;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.Instant;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 

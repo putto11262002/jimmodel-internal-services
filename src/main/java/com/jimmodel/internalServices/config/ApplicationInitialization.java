@@ -1,8 +1,8 @@
 package com.jimmodel.internalServices.config;
 
-import com.jimmodel.internalServices.model.ERole;
-import com.jimmodel.internalServices.model.Role;
-import com.jimmodel.internalServices.model.User;
+import com.jimmodel.internalServices.domain.ERole;
+import com.jimmodel.internalServices.domain.Role;
+import com.jimmodel.internalServices.domain.User;
 import com.jimmodel.internalServices.service.RoleService;
 import com.jimmodel.internalServices.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class ApplicationInitialization implements ApplicationRunner {
     @Value("${root-user.password}")
     String rootUserPassword;
 
-    @Value("file-storage.root-dir")
+    @Value("${file-storage.root-dir}")
     String fileStoragePath;
 
 

@@ -1,7 +1,7 @@
 package com.jimmodel.internalServices.service;
 
 import com.jimmodel.internalServices.exception.ValidationException;
-import com.jimmodel.internalServices.model.*;
+import com.jimmodel.internalServices.domain.*;
 import com.jimmodel.internalServices.exception.ResourceNotFoundException;
 import com.jimmodel.internalServices.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;

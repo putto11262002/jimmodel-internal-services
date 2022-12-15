@@ -1,6 +1,6 @@
 package com.jimmodel.internalServices.dto.Response;
 
-import com.jimmodel.internalServices.model.Image;
+import com.jimmodel.internalServices.domain.Image;
 import lombok.*;
 
 import java.util.UUID;

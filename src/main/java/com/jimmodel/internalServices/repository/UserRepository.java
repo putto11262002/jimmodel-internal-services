@@ -1,9 +1,7 @@
 package com.jimmodel.internalServices.repository;
 
-import com.jimmodel.internalServices.model.ERole;
-import com.jimmodel.internalServices.model.Role;
-import com.jimmodel.internalServices.model.User;
-import org.springframework.beans.factory.annotation.Value;
+import com.jimmodel.internalServices.domain.Role;
+import com.jimmodel.internalServices.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 @Repository

@@ -1,8 +1,8 @@
 package com.jimmodel.internalServices.service;
 
-import com.jimmodel.internalServices.model.BaseEntity;
-import com.jimmodel.internalServices.model.Model;
-import com.jimmodel.internalServices.model.Image;
+import com.jimmodel.internalServices.domain.BaseEntity;
+import com.jimmodel.internalServices.domain.Model;
+import com.jimmodel.internalServices.domain.Image;
 import com.jimmodel.internalServices.exception.ResourceNotFoundException;
 import com.jimmodel.internalServices.exception.ValidationException;
 import com.jimmodel.internalServices.repository.ImageRepository;
@@ -17,11 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Valid;
 import javax.validation.Validator;
 import java.io.File;
 

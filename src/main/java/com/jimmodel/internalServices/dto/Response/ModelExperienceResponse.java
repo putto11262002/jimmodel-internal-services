@@ -1,9 +1,8 @@
 package com.jimmodel.internalServices.dto.Response;
 
-import com.jimmodel.internalServices.model.ModelExperience;
+import com.jimmodel.internalServices.domain.ModelExperience;
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Data

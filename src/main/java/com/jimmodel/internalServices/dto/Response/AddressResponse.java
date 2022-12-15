@@ -1,6 +1,6 @@
 package com.jimmodel.internalServices.dto.Response;
 
-import com.jimmodel.internalServices.model.Address;
+import com.jimmodel.internalServices.domain.Address;
 import lombok.*;
 
 @Data
