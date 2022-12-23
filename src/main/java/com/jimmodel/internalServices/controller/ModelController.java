@@ -113,4 +113,28 @@ public class ModelController {
         return new ResponseEntity<>(image,header, HttpStatus.OK);
     }
 
+    @PutMapping("/publish/{id}")
+    public ResponseEntity publishModel(@PathVariable(name = "id") UUID id){
+        modelService.publish(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PutMapping("/unpublish/{id}")
+    public ResponseEntity unpublishModel(@PathVariable(name = "id") UUID id){
+        modelService.unpublish(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/publish")
+    public ResponseEntity<ModelsResponse> getPublishedModels(
+            @RequestParam(required = false, defaultValue = "0", name = "pageNumber") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "${data.page-size}", name = "pageSize") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "${data.model.sort-by}", name = "sortBy") String sortBy,
+            @RequestParam(required = false, defaultValue = "${data.sort-dir}", name = "sortDir") String sortDir
+    ){
+        Page<Model> modelPage = modelService.findAllPublished(pageNumber, pageSize, sortBy, sortDir);
+        ModelsResponse responseBody = new ModelsResponse(modelPage);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
 }

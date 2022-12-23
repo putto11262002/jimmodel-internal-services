@@ -14,5 +14,7 @@ import java.util.UUID;
 public interface ModelRepository extends JpaRepository<Model, UUID> {
     @Query(value = "select m from Model m where lower(m.firstName) like concat('%', lower(:searchTerm), '%') or lower(m.lastName) like concat('%', lower(:searchTerm), '%') or lower(m.otherNames) like concat('%', lower(:searchTerm), '%')")
     Page<Model> search(@Param("searchTerm") String searchTerm, Pageable pageable);
+
+    Page<Model> findAllByPublished(Boolean published, Pageable pageable);
 }
 

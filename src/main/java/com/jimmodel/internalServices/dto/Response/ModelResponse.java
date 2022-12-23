@@ -1,6 +1,7 @@
 package com.jimmodel.internalServices.dto.Response;
 
 
+import com.jimmodel.internalServices.domain.EGender;
 import com.jimmodel.internalServices.domain.Model;
 
 import lombok.*;
@@ -11,7 +12,10 @@ import java.util.Collection;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
 public class ModelResponse {
     private UUID id;
     private String firstName;
@@ -44,6 +48,8 @@ public class ModelResponse {
     private Collection<ImageResponse> compCardImages;
     private ImageResponse profileImage;
     private Collection<ModelExperienceResponse> experiences;
+    private Boolean published;
+    private MeasurementResponse measurement;
     public ModelResponse(Model model){
         this.id = model.getId();
         this.firstName = model.getFirstName();
@@ -57,7 +63,7 @@ public class ModelResponse {
         this.instagram = model.getInstagram();
         this.facebook = model.getFacebook();
         this.address = model.getAddress() != null ?  new AddressResponse(model.getAddress()): null;
-        this.gender = model.getGender();
+        this.gender = model.getGender().name();
         this.nationality = model.getNationality();
         this.ethnicity = model.getEthnicity();
         this.countryOfResidence = model.getCountryOfResidence();
@@ -73,8 +79,10 @@ public class ModelResponse {
         this.tattooScar = model.getTattooScar();
         this.underwearShooting = model.getUnderwearShooting();
         this.inTown = model.getInTown();
+        this.published = model.getPublished();
         this.experiences = model.getExperiences() != null ? model.getExperiences().stream().map(experience -> new ModelExperienceResponse(experience)).collect(Collectors.toList()) : new ArrayList<>();
         this.profileImage = model.getProfileImage() != null ? new ImageResponse(model.getProfileImage()): null;
         this.compCardImages = model.getCompCardImage() != null ? model.getCompCardImage().stream().map(image -> new ImageResponse(image)).collect(Collectors.toList()) : new ArrayList<>();
+        this.measurement = model.getMeasurement() != null ? new MeasurementResponse(model.getMeasurement()) : null;
     }
 }

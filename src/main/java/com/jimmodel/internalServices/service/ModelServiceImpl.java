@@ -97,6 +97,7 @@ public class ModelServiceImpl implements ModelService{
         model.setUnderwearShooting(updatedModel.getUnderwearShooting());
         model.setInTown(updatedModel.getInTown());
         model.setExperiences(updatedModel.getExperiences());
+        model.setMeasurement(updatedModel.getMeasurement());
         return this.save(model);
     }
 
@@ -184,5 +185,27 @@ public class ModelServiceImpl implements ModelService{
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
         return modelRepository.search(searchTerm, pageable);
+    }
+
+    @Override
+    public void publish(UUID id) {
+        Model model = this.findById(id);
+        model.setPublished(true);
+        this.modelRepository.save(model);
+    }
+
+    @Override
+    public void unpublish(UUID id) {
+        Model model = this.findById(id);
+        model.setPublished(false);
+        this.modelRepository.save(model);
+    }
+
+    @Override
+    public Page<Model> findAllPublished(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+        return this.modelRepository.findAllByPublished(true, pageable);
     }
 }

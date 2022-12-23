@@ -15,7 +15,6 @@ import java.util.UUID;
 @Builder
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -43,14 +42,14 @@ public class Model  extends BaseEntity{
     private String instagram;
     private String facebook;
     private LocalDate dateOfBirth;
-    @NotBlank(message = "Gender cannot be blank.")
-    private String gender;
+    @NotNull(message = "Invalid gender.")
+    private EGender gender;
     private String nationality;
     private String ethnicity;
     private String countryOfResidence;
     private String spokenLanguage;
     private String passportNumber;
-    private String IdCard;
+    private String idCard;
     private String taxId;
     private String occupation;
     private String education;
@@ -62,7 +61,7 @@ public class Model  extends BaseEntity{
     private String medicalBackground;
     private String tattooScar;
     private Boolean underwearShooting;
-    private Boolean inTown;
+    private Boolean inTown = false;
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true
@@ -77,10 +76,49 @@ public class Model  extends BaseEntity{
     @Valid
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<ModelExperience> experiences;
-//    @CreationTimestamp
-//    private LocalDate createdAt;
-//    @UpdateTimestamp
-//    private LocalDateTime updatedAt;
+    private Boolean published;
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Measurement measurement;
+
+    @Builder
+    public Model(UUID id, String firstName, String lastName, String otherNames, String email, String phoneNumber, String lineId, String whatsApp, String weChat, String instagram, String facebook, LocalDate dateOfBirth, EGender gender, String nationality, String ethnicity, String countryOfResidence, String spokenLanguage, String passportNumber, String idCard, String taxId, String occupation, String education, Address address, String talent, String medicalBackground, String tattooScar, Boolean underwearShooting, Boolean inTown, Collection<Image> compCardImage, Image profileImage, Collection<ModelExperience> experiences, Boolean published, Measurement measurement) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.otherNames = otherNames;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.lineId = lineId;
+        this.whatsApp = whatsApp;
+        this.weChat = weChat;
+        this.instagram = instagram;
+        this.facebook = facebook;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.nationality = nationality;
+        this.ethnicity = ethnicity;
+        this.countryOfResidence = countryOfResidence;
+        this.spokenLanguage = spokenLanguage;
+        this.passportNumber = passportNumber;
+        this.idCard = idCard;
+        this.taxId = taxId;
+        this.occupation = occupation;
+        this.education = education;
+        this.address = address;
+        this.talent = talent;
+        this.medicalBackground = medicalBackground;
+        this.tattooScar = tattooScar;
+        this.underwearShooting = underwearShooting;
+        this.inTown = inTown;
+        this.compCardImage = compCardImage;
+        this.profileImage = profileImage;
+        this.experiences = experiences;
+        this.published = published == null ? false : published;
+        this.measurement = measurement;
+    }
 
     public void setExperiences(Collection<ModelExperience> experiences){
         this.experiences.clear();

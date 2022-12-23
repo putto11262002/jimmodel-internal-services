@@ -1,6 +1,7 @@
 package com.jimmodel.internalServices.dto.Request;
 
 
+import com.jimmodel.internalServices.domain.EGender;
 import com.jimmodel.internalServices.domain.Model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,7 +48,23 @@ public class ModelRequest {
     private Boolean inTown;
     private Collection<ModelExperienceRequest> experiences;
 
+    private MeasurementRequest measurement;
+
     public Model toEntity(){
+        EGender eGender;
+        switch (this.gender.toLowerCase()){
+            case "male":
+                eGender = EGender.MALE;
+                break;
+            case "female":
+                eGender = EGender.FEMALE;
+                break;
+            case "other":
+                eGender = EGender.OTHER;
+                break;
+            default:
+                eGender = null;
+        }
         return Model.builder()
                 .id(this.id)
                 .firstName(this.firstName)
@@ -60,12 +77,12 @@ public class ModelRequest {
                 .whatsApp(this.whatsApp)
                 .instagram(this.instagram)
                 .facebook(this.facebook)
-                .gender(this.gender)
+                .gender(eGender)
                 .nationality(this.nationality)
                 .ethnicity(this.ethnicity)
                 .countryOfResidence(this.countryOfResidence)
                 .spokenLanguage(this.spokenLanguage)
-                .IdCard(this.idCard)
+                .idCard(this.idCard)
                 .taxId(this.taxId)
                 .occupation(this.occupation)
                 .education(this.education)
@@ -78,6 +95,7 @@ public class ModelRequest {
                 .experiences(this.experiences != null ? this.experiences.stream().map(experiencesRequest -> experiencesRequest.toEntity()).collect(Collectors.toList()) : null)
                 .address(this.address != null ? this.address.toEntity() : null)
                 .dateOfBirth(this.dateOfBirth)
+                .measurement(this.measurement != null ? this.measurement.toEntity() : null)
                 .build();
     }
 }
