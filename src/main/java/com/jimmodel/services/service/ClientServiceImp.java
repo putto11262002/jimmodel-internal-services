@@ -31,7 +31,7 @@ public class ClientServiceImp implements ClientService{
     public Client save(Client client) {
         Set<ConstraintViolation<BaseEntity>> violations = validator.validate(client);
         if (!violations.isEmpty()){
-            throw new ValidationException("Client validation failed", violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList()));
+            throw new ValidationException(String.join(",",  violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList())));
         }
         return clientRepository.save(client);
     }

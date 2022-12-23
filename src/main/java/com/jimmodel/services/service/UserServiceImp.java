@@ -53,7 +53,7 @@ public class UserServiceImp implements UserService {
     public User save(User user) {
        Set<ConstraintViolation<BaseEntity>> violations = validator.validate(user, User.NewUserInfo.class);
        if(!violations.isEmpty()){
-           throw new ValidationException("User validation failed", violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList()));
+           throw new ValidationException(String.join(",",  violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList())));
        }
 
        if(userRepository.existsByUsername(user.getUsername())){
@@ -88,7 +88,7 @@ public class UserServiceImp implements UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("User with id %s does not exist", id)));
         Set<ConstraintViolation<BaseEntity>> violations = validator.validate(updatedUpdate, User.ExistingUserInfo.class);
         if(!violations.isEmpty()){
-            throw new ValidationException("User validation failed", violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList()));
+            throw new ValidationException(String.join(",",  violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList())));
         }
         user.setLastName(updatedUpdate.getLastName());
         user.setEmailAddress(updatedUpdate.getEmailAddress());

@@ -36,7 +36,7 @@ public class ReminderServiceImp implements ReminderService{
     public Event save(Event reminder) {
         Set<ConstraintViolation<BaseEntity>> violations = validator.validate(reminder, Event.ReminderInfo.class);
         if(!violations.isEmpty()){
-            throw new ValidationException("Reminder validation failed", violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList()));
+            throw new ValidationException(String.join(",",  violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList())));
         }
 
         Collection<Model> relatedModels = new HashSet<>();

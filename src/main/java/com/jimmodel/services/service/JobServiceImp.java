@@ -40,7 +40,7 @@ public class JobServiceImp implements JobService{
 
         Set<ConstraintViolation<BaseEntity>>  violations = validator.validate(job, Event.JobInfo.class);
         if (!violations.isEmpty()){
-            throw new ValidationException("Job validation failed", violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList()));
+            throw new ValidationException(String.join(",",  violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList())));
         }
 
         Collection<Model> relatedModels = new HashSet<>();

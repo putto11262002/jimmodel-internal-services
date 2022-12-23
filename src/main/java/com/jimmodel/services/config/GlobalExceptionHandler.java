@@ -28,7 +28,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
         System.out.println(exception);
 
         ErrorResponse responseBody = ErrorResponse.builder()
-                .messages(List.of("Something went wrong. Please try again later."))
+                .messages("Something went wrong. Please try again later.")
                 .errorMessageKey(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .timestamp(Instant.now())
                 .errorCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> resourceNotFoundExceptionHandler(HttpServletRequest request, ResourceNotFoundException exception){
         ErrorResponse responseBody = ErrorResponse.builder()
-                .messages(List.of(exception.getMessage()))
+                .messages(exception.getMessage())
                 .errorMessageKey(HttpStatus.BAD_REQUEST.getReasonPhrase())
                 .errorCode(HttpStatus.BAD_REQUEST.value())
                 .url(request.getRequestURI())
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ErrorResponse> validationException(HttpServletRequest request, ValidationException exception){
         ErrorResponse responseBody = ErrorResponse.builder()
-                .messages(exception.getViolations())
+                .messages(exception.getMessage())
                 .errorMessageKey(HttpStatus.BAD_REQUEST.getReasonPhrase())
                 .errorCode(HttpStatus.BAD_REQUEST.value())
                 .url(request.getRequestURI())
@@ -67,7 +67,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<ErrorResponse> ExpiredJwtException(HttpServletRequest request){
         ErrorResponse responseBody = ErrorResponse.builder()
-                .messages(List.of("Token is expired."))
+                .messages("Token is expired.")
                 .errorMessageKey(HttpStatus.UNAUTHORIZED.getReasonPhrase())
                 .errorCode(HttpStatus.UNAUTHORIZED.value())
                 .timestamp(Instant.now())
@@ -80,7 +80,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     @ExceptionHandler(JwtException.class)
     public ResponseEntity<ErrorResponse> JwtExceptions(HttpServletRequest request, Exception e){
         ErrorResponse responseBody = ErrorResponse.builder()
-                .messages(List.of(e.getMessage()))
+                .messages(e.getMessage())
                 .errorMessageKey(HttpStatus.UNAUTHORIZED.getReasonPhrase())
                 .errorCode(HttpStatus.UNAUTHORIZED.value())
                 .timestamp(Instant.now())
@@ -94,7 +94,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     public ResponseEntity<ErrorResponse> InsufficientAuthenticationException(HttpServletRequest request, Exception e){
 
         ErrorResponse responseBody = ErrorResponse.builder()
-                .messages(List.of(e.getMessage()))
+                .messages(e.getMessage())
                 .errorMessageKey(HttpStatus.FORBIDDEN.getReasonPhrase())
                 .errorCode(HttpStatus.FORBIDDEN.value())
                 .timestamp(Instant.now())
@@ -107,7 +107,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> AccessDeniedException(HttpServletRequest request, Exception e){
         ErrorResponse responseBody = ErrorResponse.builder()
-                .messages(List.of(e.getMessage()))
+                .messages(e.getMessage())
                 .errorMessageKey(HttpStatus.UNAUTHORIZED.getReasonPhrase())
                 .errorCode(HttpStatus.UNAUTHORIZED.value())
                 .timestamp(Instant.now())
@@ -120,7 +120,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponse> ConstraintViolationException(HttpServletRequest request, Exception e){
         ErrorResponse responseBody = ErrorResponse.builder()
-                .messages(List.of(e.getMessage()))
+                .messages(e.getMessage())
                 .errorMessageKey(HttpStatus.BAD_REQUEST.getReasonPhrase())
                 .errorCode(HttpStatus.BAD_REQUEST.value())
                 .timestamp(Instant.now())

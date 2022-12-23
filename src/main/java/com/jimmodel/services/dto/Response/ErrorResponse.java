@@ -11,7 +11,7 @@ import java.util.Collection;
 @Getter
 @Builder
 public class ErrorResponse {
-    private Collection<String> messages;
+    private String messages;
     private String errorMessageKey;
     private Integer errorCode;
     private Instant timestamp;

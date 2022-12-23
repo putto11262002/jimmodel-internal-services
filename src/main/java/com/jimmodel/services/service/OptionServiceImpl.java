@@ -38,7 +38,7 @@ public class OptionServiceImpl implements OptionService{
     public Event save(Event option) {
         Set<ConstraintViolation<BaseEntity>> violations = validator.validate(option, Event.OptionInfo.class);
         if(!violations.isEmpty()){
-            throw new ValidationException("Option validation failed", violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList()));
+            throw new ValidationException(String.join(",",  violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList())));
         }
         Collection<Model> relatedModels = new HashSet<>();
 

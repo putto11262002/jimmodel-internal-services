@@ -55,7 +55,7 @@ public class ModelServiceImpl implements ModelService{
     public Model save(Model model){
         Set<ConstraintViolation<BaseEntity>> violations = validator.validate(model);
         if(!violations.isEmpty()){
-            throw new ValidationException("Model constraints violated", violations.stream().map(violation ->violation.getMessage()).collect(Collectors.toList()));
+            throw new ValidationException(String.join(",",  violations.stream().map(violation -> violation.getMessage()).collect(Collectors.toList())));
         }
         return modelRepository.save(model);
     }
